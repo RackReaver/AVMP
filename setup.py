@@ -11,7 +11,10 @@ with open('vulcan/VERSION') as version_file:
 assert isinstance(version, str)
 
 
-install_requirements = []
+install_requirements = [
+    # Pre-built object for accessing the Tenable.io API
+    'pyTenable'
+]
 
 setup(name='vulcan',
       version=version,
