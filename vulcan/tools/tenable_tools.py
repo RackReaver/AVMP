@@ -11,19 +11,30 @@ from tenable.io import TenableIO
 
 class TenableToolsAPI:
     def __init__(self, access_key, secret_key):
-    """Capture access and secret key for Tenable.IO API
+        """Capture access and secret key for Tenable.IO API
 
-    args:
-        access_key (str): Access key for Tenable.IO.
-        secret_key (str): Secret key for Tenable.IO.
-    
-    Return: None
-    """
-    self.access_key = access_key
-    self.secret_key = secret_key
+        args:
+            access_key (str): Access key for Tenable.IO.
+            secret_key (str): Secret key for Tenable.IO.
 
-    self.tio = TenableIO(self.access_key, self.secret_key)
+        Return: None
+        """
+        self.access_key = access_key
+        self.secret_key = secret_key
 
-    def get_scan_data(scan_name):
-        # TODO
-        pass
+        self.tio = TenableIO(self.access_key, self.secret_key)
+
+    def get_scan_meta_data(self, scan_name):
+        """Gets scan meta data for a provided scan_name.
+
+        args:
+            scan_name (str): Name of scan found in Tenable.
+
+        Return (dict): Scan meta data.
+        """
+        # Get list of all scans in Tenable
+        scan_list = self.tio.scans.list()
+
+        for scan in scan_list:
+            if scan['name'] == scan_name:
+                return scan
