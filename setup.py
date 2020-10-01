@@ -13,7 +13,10 @@ assert isinstance(version, str)
 
 install_requirements = [
     # Pre-built object for accessing the Tenable.io API
-    'pyTenable'
+    'pyTenable',
+
+    # Pre-built object for accessing the Jira API
+    'jira'
 ]
 
 setup(name='vulcan',
