@@ -3,3 +3,4 @@
 
 # Python temp files
 *.egg-info
+__pycache__/
