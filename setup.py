@@ -23,6 +23,6 @@ setup(name='vulcan',
       license='Apache License',
       author='Matt Ferreira',
       author_email='rackreaver@gmail.com',
-      download_url='https://github.com/RackReaver/VulnDBs',
+      download_url='https://github.com/RackReaver/Vulcan',
       install_requires=install_requirements
       )
