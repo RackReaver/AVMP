@@ -9,7 +9,7 @@ import datetime
 import logging
 
 
-class TenableVulnDB:
+class TenableSqliteVulnDB:
     def __init__(self, filepath, ignore_statuses=['Done', 'Closed', 'Platform Complete']):
         isinstance(filepath, str)
         isinstance(ignore_statuses, list)
