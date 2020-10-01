@@ -1,2 +1,5 @@
 # Code editor settings
 .vscode
+
+# Python temp files
+*.egg-info
