@@ -1,7 +1,7 @@
 import socket
 import logging
 from getpass import getpass
-from jira import jira
+from jira import JIRA
 
 
 class ScriptError(Exception):
