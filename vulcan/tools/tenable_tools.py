@@ -4,6 +4,7 @@ __copyright__ = "Copyright (C) 2020  Matt Ferreira"
 __license__ = "Apache License"
 
 import os
+import csv
 from datetime import datetime
 import logging
 from tenable.io import TenableIO
@@ -134,3 +135,61 @@ class TenableToolsAPI:
                     history_id = history['id']
 
         return history_id, scan_date
+
+
+class TenableToolsCSV:
+    def __init__(self,  filepath, min_cvss_score=None):
+        isinstance(filepath, str)
+
+        self.filepath = filepath
+        self.min_cvss_score = min_cvss_score
+        self.columns, self.rows = self._importer()
+
+    def _importer(self):
+        """Import Tenable csv file.
+
+        Return: column names (tuple), rows (tuple)
+        """
+        with open(self.filepath, 'r', encoding='utf-8-sig') as import_file:
+            reader = csv.reader(import_file)
+            first = True
+            final_list = []
+            for num, row in enumerate(reader):
+                temp_dict = {}
+                if first == True:
+                    title_info = (tuple(row))
+                    first = False
+                else:
+                    for sub_num, item in enumerate(row):
+                        temp_dict[title_info[sub_num]] = item
+                    if self.min_cvss_score != None:
+                        if float(temp_dict['CVSS']) >= float(self.min_cvss_score):
+                            final_list.append(temp_dict)
+
+        return tuple(title_info), tuple(final_list)
+
+    def group_by(self, column_name):
+
+        data = self.rows
+
+        # Check if column name exists
+        column_exists = False
+        for row in data:
+            for key in row.keys():
+                if key == column_name:
+                    column_exists = True
+        # Error out if column does not exist
+        if column_exists == False:
+            raise DataError('group_by column not found.')
+
+        # Group by column name
+        grouped_dict = {}
+        for row in data:
+            if row[column_name] not in grouped_dict:
+                grouped_dict[row[column_name]] = {}
+
+            next_num = len(grouped_dict[row[column_name]]) + 1
+
+            grouped_dict[row[column_name]][next_num] = row
+
+        return grouped_dict
