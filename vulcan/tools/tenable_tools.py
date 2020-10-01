@@ -24,6 +24,15 @@ class TenableToolsAPI:
 
         self.tio = TenableIO(self.access_key, self.secret_key)
 
+    def get_all_scan_names(self):
+        scan_list = self.tio.scans.list()
+
+        scans = []
+        for scan in scan_list:
+            scans.append(scan['name'])
+
+        return scans
+
     def get_scan_meta_data(self, scan_name):
         """Gets scan meta data for a provided scan_name.
 
