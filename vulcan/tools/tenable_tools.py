@@ -62,9 +62,9 @@ class TenableToolsAPI:
 
         Return (str): Filepath of scan
         """
-        isinstance(scan_name, str)
-        isinstance(folder, str)
-        isinstance(export_format, str)
+        assert isinstance(scan_name, str)
+        assert isinstance(folder, str)
+        assert isinstance(export_format, str)
 
         SCAN_NAME = scan_name
         SAVE_FOLDER = os.path.join(folder, SCAN_NAME)
@@ -118,7 +118,7 @@ class TenableToolsAPI:
 
         Return: history_id (str), scan_date (datetime).
         """
-        isinstance(scan_id, str)
+        assert isinstance(scan_id, str)
 
         first = True
         for history in self.tio.scans.history(scan_id):
@@ -139,7 +139,7 @@ class TenableToolsAPI:
 
 class TenableToolsCSV:
     def __init__(self,  filepath, min_cvss_score=None):
-        isinstance(filepath, str)
+        assert isinstance(filepath, str)
 
         self.filepath = filepath
         self.min_cvss_score = min_cvss_score
