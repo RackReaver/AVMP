@@ -62,9 +62,9 @@ class TenableToolsAPI:
 
         Return (str): Filepath of scan
         """
-        isinstance(scan_name, str)
-        isinstance(folder, str)
-        isinstance(export_format, str)
+        assert isinstance(scan_name, str)
+        assert isinstance(folder, str)
+        assert isinstance(export_format, str)
 
         SCAN_NAME = scan_name
         SAVE_FOLDER = os.path.join(folder, SCAN_NAME)
