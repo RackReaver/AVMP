@@ -20,9 +20,28 @@ class SlackTools:
         if custom_payload == None:
             if channel != None:
                 payload = {"channel": channel,
-                           "text": message}
+                            "blocks": [
+                                {
+                                    "type": "section",
+                                    "text": {
+                                        "type": "mrkdwn",
+                                        "text": message
+                                    }
+                                }
+                            ]
+                        }
             else:
-                payload = {"text": message}
+                payload = {
+                        "blocks": [
+                                {
+                                    "type": "section",
+                                    "text": {
+                                        "type": "mrkdwn",
+                                        "text": message
+                                    }
+                                }
+                            ]
+                        }
 
         r = requests.post(webhook_url,
                           data=json.dumps(payload),
