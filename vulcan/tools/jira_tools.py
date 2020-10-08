@@ -123,7 +123,7 @@ class JiraToolsAPI:
             logging.debug(f'Failed to log time against {issue}')
             return False
         finally:
-            logging.debug(f'Logged time against {issue}')
+            logging.info(f'Logged time against {issue}')
             return True
 
     def search_issue(self, id):
