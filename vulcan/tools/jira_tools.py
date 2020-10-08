@@ -120,8 +120,10 @@ class JiraToolsAPI:
             else:
                 self._JIRA.add_worklog(issue, time_spent)
         except:
+            logging.debug(f'Failed to log time against {issue}')
             return False
         finally:
+            logging.debug(f'Logged time against {issue}')
             return True
 
     def search_issue(self, id):
