@@ -120,10 +120,10 @@ class JiraToolsAPI:
             else:
                 self._JIRA.add_worklog(issue, time_spent)
         except:
-            logging.debug(f'Failed to log time against {issue}')
+            logging.debug(f'Failed to log time against "{issue}"')
             return False
         finally:
-            logging.info(f'Logged time against {issue}')
+            logging.info(f'Logged time against "{issue}"')
             return True
 
     def search_issue(self, id):
@@ -170,14 +170,15 @@ class JiraToolsAPI:
         """
         while timeout_attempts != 0:
             transitions = self._JIRA.transitions(id)
-            print(transitions)
             for transition in transitions:
                 if transition['name'] == end_status:
                     jira_ticket = self._JIRA.transition_issue(
                         id, transition['id'])
+                    logging.info('Updated status of "{}" to "{}"'.format(id, end_status))
                     return True
                 elif transition['name'] in transfer_statuses:
                     jira_ticket = self._JIRA.transition_issue(
                         id, transition['id'])
             timeout_attempts -= 1
+        logging.debug('Unable to update status of "{}" to end_status ({})'.format(id, end_status))
         return False
