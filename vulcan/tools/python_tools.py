@@ -25,28 +25,50 @@ def logging_setup(filename):
     )
 
 
-def data_setup(filename):
-    """Standard data file setup.
+class DataSetup:
+    def __init__(filename):
+        """Standard data file setup.
 
-    args:
-        filename (str): Script filename.
-        data (str): data that should be written to file.
+        args:
+            filename (str): Script filename.
 
-    Return (dict): If file exists return json, else return empty dict.
-    """
-    isinstance(filename, str)
-    FILENAME = filename[:-3]+".json"
+        Return: None
+        """
+        assert isinstance(filename, str)
+        self.filename = filename[:-3]+".json"
+        self.filepath = 'data/' + FILENAME
 
-    if os.path.isdir('data') == False:
-        os.mkdir('data')
-        logging.info('Creating data folder.')
+        # Check/Create data folder
+        if os.path.isdir('data') == False:
+            os.mkdir('data')
+            logging.info('Creating data folder.')
 
-    if os.path.isfile(f'data/{FILENAME}'):
-        with open(FILENAME, 'r') as openFile:
+    def get_data(self):
+        """Pull data from file
+
+        Return (dict): Data found in data file.
+        """
+        with open(FILEPATH, 'r') as openFile:
             data = json.load(openFile)
             logging.info('Loaded JSON data file.')
         return data
-    else:
-        with open(f'data/{FILENAME}', 'w') as openFile:
-            pass
-        return {}
+
+    def put_data(self, data):
+        """Re-write data to file
+
+        args:
+            data (dict): Data to be converted to json and written to file
+
+        Return (bool): If successful True, else False
+        """
+        assert isinstance(data, dict)
+        try:
+            with open(self.filepath, 'w') as openFile:
+                openFile.write(data.dumps())
+
+            logging.info('JSON exported to data file.')
+
+            return True
+        except Exception as e:
+            logging.warning(e)
+            return False
