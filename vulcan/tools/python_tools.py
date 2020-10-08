@@ -32,7 +32,7 @@ def data_setup(filename):
         filename (str): Script filename.
         data (str): data that should be written to file.
 
-    Return: If file exists return json, else create file and return None.
+    Return (dict): If file exists return json, else return empty dict.
     """
     isinstance(filename, str)
     FILENAME = filename[:-3]+".json"
@@ -47,6 +47,6 @@ def data_setup(filename):
             logging.info('Loaded JSON data file.')
         return data
     else:
-        with open(FILENAME, 'w'):
+        with open(f'data/{FILENAME}', 'w') as openFile:
             pass
-        return None
+        return {}
