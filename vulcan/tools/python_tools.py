@@ -67,7 +67,7 @@ class DataSetup:
         assert isinstance(data, dict)
         try:
             with open(self.filepath, 'w') as openFile:
-                openFile.write(data.dumps())
+                openFile.write(json.dumps(data))
 
             logging.info('JSON exported to data file.')
 
