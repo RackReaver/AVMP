@@ -153,3 +153,31 @@ class JiraToolsAPI:
     def ticket_parser(self, data, regex=None, text=None):
         # TODO: Create parser to check all ticket values for regex values or text
         pass
+
+    def update_status(self, id, end_status, transfer_statuses=[], timeout_attempts=10):
+        """Change issue to desired status.
+
+        Due to the workflow features of Jira it might not be possible to transition
+        directly to the wanted status, intermediary statuses might be required and
+        this funcation allows for that using 'transfer_statuses'.
+
+        args:
+            id (str): Issue id for status update
+            end_status (str): Name of status to update ticket to.
+        kwargs:
+            transfer_statuses (list): Ordered list of intermediary statuses
+            timeout_attempts (num): Number of times before while loop times out.
+        """
+        while timeout_attempts != 0:
+            transitions = self._JIRA.transitions(id)
+            print(transitions)
+            for transition in transitions:
+                if transition['name'] == end_status:
+                    jira_ticket = self._JIRA.transition_issue(
+                        id, transition['id'])
+                    return True
+                elif transition['name'] in transfer_statuses:
+                    jira_ticket = self._JIRA.transition_issue(
+                        id, transition['id'])
+            timeout_attempts -= 1
+        return False
