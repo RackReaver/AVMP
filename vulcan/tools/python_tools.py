@@ -26,7 +26,7 @@ def logging_setup(filename):
 
 
 class DataSetup:
-    def __init__(filename):
+    def __init__(self, filename):
         """Standard data file setup.
 
         args:
@@ -36,19 +36,22 @@ class DataSetup:
         """
         assert isinstance(filename, str)
         self.filename = filename[:-3]+".json"
-        self.filepath = 'data/' + FILENAME
+        self.filepath = 'data/' + self.filename
 
         # Check/Create data folder
         if os.path.isdir('data') == False:
             os.mkdir('data')
             logging.info('Creating data folder.')
+        if not os.path.isfile(self.filepath):
+            with open(self.filepath, 'w') as openFile:
+                openFile.write('{}')
 
     def get_data(self):
         """Pull data from file
 
         Return (dict): Data found in data file.
         """
-        with open(FILEPATH, 'r') as openFile:
+        with open(self.filepath, 'r') as openFile:
             data = json.load(openFile)
             logging.info('Loaded JSON data file.')
         return data
