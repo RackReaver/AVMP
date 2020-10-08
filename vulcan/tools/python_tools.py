@@ -12,8 +12,9 @@ def logging_setup(filename):
 
     if os.path.isdir('logs') == False:
         os.mkdir('logs')
+        logging.info('Creating logs folder.')
 
-        # Logging configuration
+    # Logging configuration
     fmtstr = '%(asctime)s:%(levelname)s:%(module)s:%(message)s'
     logging.basicConfig(
         filename='logs/{}.log'.format(filename[:-3]),
