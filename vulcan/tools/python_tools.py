@@ -16,7 +16,7 @@ def logging_setup(filename):
         # Logging configuration
     fmtstr = '%(asctime)s:%(levelname)s:%(module)s:%(message)s'
     logging.basicConfig(
-        filename='logs/{}.log'.format(filename),
+        filename='logs/{}.log'.format(filename[:-3]),
         level=logging.INFO,
         filemode='a',
         format=fmtstr
