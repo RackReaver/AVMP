@@ -23,6 +23,7 @@ setup(name='vulcan',
       version=version,
       description='A collection of tools for managing and automating vulnerability management.',
       long_description=README,
+      long_description_content_type='text/markdown'
       license='Apache License',
       author='Matt Ferreira',
       author_email='rackreaver@gmail.com',
