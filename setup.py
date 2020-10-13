@@ -29,5 +29,6 @@ setup(name='vulcan',
       author_email='rackreaver@gmail.com',
       url='https://github.com/RackReaver/Vulcan',
       download_url='https://github.com/RackReaver/Vulcan',
+      include_package_data=True,
       install_requires=install_requirements
       )
