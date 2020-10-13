@@ -28,6 +28,6 @@ setup(name='vulcan',
       author='Matt Ferreira',
       author_email='rackreaver@gmail.com',
       url='https://github.com/RackReaver/Vulcan',
-      include_package_data=True,
+      packages=['vulcan'],
       install_requires=install_requirements
       )
