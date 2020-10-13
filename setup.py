@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_namespace_packages
 
 # Read the contents of your README file
 from os import path
@@ -29,6 +29,6 @@ setup(name='vulcan',
       author_email='rackreaver@gmail.com',
       url='https://github.com/RackReaver/Vulcan',
       download_url='https://github.com/RackReaver/Vulcan',
-      packages=['vulcan'],
+      packages=find_namespace_packages(),
       install_requires=install_requirements
       )
