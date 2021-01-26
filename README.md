@@ -1,4 +1,4 @@
-# Vulcan
+# AVMP (Automated Vulnerability Management Program)
 
 A collection of tools for managing and automating vulnerability management.
 
@@ -7,7 +7,7 @@ A collection of tools for managing and automating vulnerability management.
 Use the follow commands to get the application installed:
 
 ```
-$ pip install https://github.com/RackReaver/Vulcan.git
+$ pip install https://github.com/RackReaver/AVMP.git
 ```
 
 ## Deployment
@@ -17,15 +17,7 @@ Download the package using the above pip command then see documentation for impl
 ## How to use
 
 ```
->>> from vulcan.dbs.tenable_vuln_db import TenableVulnDB
->>>
->>> tvd = TenableVulnDB('database.db')
->>>
->>> tvd.add_ticket('INC-0001', '85023', 'In Progress', ['10.0.0.1', '10.0.0.2', '10.0.0.3'])
->>> True
->>>
->>> tvd.update_ticket('INC-0001', 'Done')
->>> True
+>>> TBA
 ```
 
 ## TO-DO
