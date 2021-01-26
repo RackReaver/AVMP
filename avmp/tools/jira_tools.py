@@ -1,7 +1,11 @@
-import socket
+"""Classes and functions for communicating with Jira.
+"""
+__copyright__ = "Copyright (C) 2021  Matt Ferreira"
+__license__ = "Apache License"
+
 import logging
-from getpass import getpass
 from jira import JIRA
+from getpass import getpass
 
 
 class ScriptError(Exception):
@@ -10,49 +14,54 @@ class ScriptError(Exception):
 
 class JiraToolsAPI:
     def __init__(self, jira_server_link, username=None, password=None):
-        """Initalizes the JiraTicket class. If username or password is not provided you will be prompted for it.
+        """Initalizes the Jira API connector. If a username or password is not provided you will be prompted for it.
 
         args:
             jira_server_link (str): Link to the Jira server to touch API
 
         kwargs:
-            username (str): This can be used to pass a username instead of using the default username prompt.
-            password (str): This can be used to pass a password instead of using the default password prompt.
+            username (str): Overwrites jira username prompt
+            password (str): Overwrites jira password prompt
+
+        return: None
         """
         self.jira_server_link = jira_server_link
-        self.jira_options = {
-            "server": self.jira_server_link
-        }
+        self.jira_options = {"server": self.jira_server_link}
+
         if username == None:
-            self.username = input('Username: ')
-        else:
-            self.username = username
+            username = input("Username: ")
         if password == None:
-            self.password = getpass()
-        else:
-            self.password = password
+            password = getpass()
+
+        self.username = username
+        self.password = password
 
         self._JIRA = JIRA(self.jira_options, basic_auth=(
             self.username, self.password))
-        logging.info('{} used "{}" to authenticate successfully with Jira'.format(
-            socket.gethostname(), self.username))
+        logging.info(
+            f"Authenticated successfully with Jira with {self.username}")
 
-    def create_issue(self, data):
-        """This creates a single Jira ticket and has no other functionality.
+    def create(self, data):
+        """Create a single Jira ticket.
 
         args:
             data (dict): Fields required or needed to create the ticket.
 
-        Return (str): Ticket Number
+        return (str): Ticket number / 'False' if fails
         """
-        jira_ticket = self._JIRA.create_issue(fields=data)
-        logging.info('{} used "{}" to create a ticket "{}" successfully in Jira'.format(
-            socket.gethostname(), self.username, jira_ticket.key))
+        try:
+            jira_ticket = self._JIRA.create_issue(fields=data)
+            logging.info(
+                f"Successfully created Jira issue '{jira_ticket.key}'")
+            return jira_ticket.key
 
-        return jira_ticket.key
+        except Exception as error:
+            logging.debug(
+                f"Failed to create Jira issue '{jira_ticket.key}'\n\n{error}\n\n")
+            return False
 
-    def link_two_issues(self, issue_from, issue_to, issue_link_name=None):
-        """Links two issues together. Defaults to 'Relates' unless issue_link_name is specified.
+    def link(self, issue_from, issue_to, issue_link_name=None):
+        """Link two issues together. Defaults to 'Relates' unless issue_link_name is specified.
 
         args:
             issue_from (str): Issue that will be linked from.
@@ -62,16 +71,21 @@ class JiraToolsAPI:
         kwargs:
             issue_link_name (str): issue link name that should be applied.
 
-        Return (bool): Will return 'True' if it completed successfully.
+        return (bool): Will return 'True' if it completed successfully.
         """
-        self._JIRA.create_issue_link(issue_link_name, issue_from, issue_to)
-        logging.info('{} used "{}" to create a "{}" link between "{}" and "{}" successfully in Jira'.format(
-            socket.gethostname(), self.username, issue_link_name, issue_from, issue_to))
+        try:
+            self._JIRA.create_issue_link(issue_link_name, issue_from, issue_to)
+            logging.info(
+                f"Successfully created a '{issue_link_name}' link between '{issue_from}' and '{issue_to}'.")
+            return True
 
-        return True
+        except Exception as error:
+            logging.debug(
+                f"Failed to create a link between '{issue_from}' and '{issue_to}'\n\n{error}\n\n")
+            return False
 
-    def apply_label_to_issue(self, issue, labels):
-        """This will apply a label or labels to a given issue.
+    def label(self, issue, labels):
+        """Apply labels to a given issue.
 
         args:
             issue (str): Issue that labels will be applied to.
@@ -80,79 +94,88 @@ class JiraToolsAPI:
         Return (bool): Will return 'True' if it completed successfully.
         """
         if type(labels) == list:
-            issue_instance = self._JIRA.issue(issue)
-            issue_instance.update(
-                fields={"labels": issue_instance.fields.labels + labels})
+            try:
+                issue_instance = self._JIRA.issue(issue)
+                issue_instance.update(
+                    fields={"labels": issue_instance.fields.labels + labels})
+                logging.info(
+                    f"Successfully added labels '{labels}' to '{issue}'")
+                return True
 
-            return True
+            except Exception as error:
+                logging.debug(
+                    f"Failed to add labels '{labels}' to '{issue}'\n\n{error}\n\n")
+                return False
+
         else:
-            raise ScriptError(
-                'A list must be passed to the labels argument')
+            raise ScriptError('A list must be passed to the labels argument')
 
-    def apply_comment_to_issue(self, issue, comment):
-        """This will apply a comment to a given issue.
+    def comment(self, issue, comment):
+        """Apply a comment to a given issue.
+
+         args:
+             issue (str): Issue that comment will be applied to.
+             comment (str): comment that should be applied to the issue.
+
+         return (bool): Will return 'True' if it completed successfully.
+         """
+        try:
+            self._JIRA.add_comment(issue, comment)
+            logging.info(
+                f"Successfully added comment '{comment}' to '{issue}'")
+            return True
+        except Exception as error:
+            logging.debug(
+                f"Failed to add comment '{comment}' to '{issue}'\n\n{error}\n\n")
+            return False
+
+    def log_work(self, issue, time_spent, comment=None):
+        """Log work to a given issue.
 
         args:
-            issue (str): Issue that labels will be applied to.
-            comment (str): comment that should be applied to the issue.
-
-        Return (bool): Will return 'True' if it completed successfully.
-        """
-        self._JIRA.add_comment(issue, comment)
-
-        return True
-
-    def log_work_to_issue(self, issue, time_spent, comment=None):
-        """This will log work to a given issue.
-
-        args:
-            issue (str): Issue that labels will be applied to.
+            issue (str): Issue to log work.
             time_spent (str): Time that should be logged to the issue.
 
-        param:
+        kwargs:
             comment (str): Description of what this time represents.
 
-        Return (bool): Will return 'True' if it completed successfully.
+        return (bool): Will return 'True' if it completed successfully.
         """
         try:
             if comment != None and type(comment) == str:
                 self._JIRA.add_worklog(issue, time_spent, comment=comment)
             else:
                 self._JIRA.add_worklog(issue, time_spent)
-        except:
-            logging.debug(f'Failed to log time against "{issue}"')
-            return False
-        finally:
-            logging.info(f'Logged time against "{issue}"')
+            logging.info(f"Successfully logged time to '{issue}'")
             return True
 
-    def search_issue(self, id):
-        return self._JIRA.issue(id)
+        except Exception as error:
+            logging.info(
+                f"Failed to log work to '{issue}' See debug logs for more.")
+            logging.debug(f"\n{error}\n")
+            return False
 
-    def jira_search(self, jql_search_string, maxResults=None):
-        """Returns ticket numbers for a given search string.
+    def add_attachment(self, issue, attachment):
+        """Attach file to Jira issue.
 
         args:
-            jql_search_string (str): Jira JQL search string.
+            issue (str): Issue name
+            attachment (str): Location of file that should be attached.
 
-        kwargs:
-            maxResults (num) default:None : Number of results to return.
-
-        Return (list): List of jira issue classes.
+        Return (bool): Will return 'True' if completed successfully
         """
-        if maxResults != None:
-            results = self._JIRA.search_issues(
-                jql_search_string, maxResults=maxResults)
-        else:
-            results = self._JIRA.search_issues(jql_search_string)
+        assert isinstance(issue, str)
+        assert isinstance(attachment, str)
 
-        tickets = []
+        try:
+            self._JIRA.add_attachment(issue=issue, attachment=attachment)
+            logging.info(f'Successfully attached document to "{issue}"')
+            return True
 
-        return results
-
-    def ticket_parser(self, data, regex=None, text=None):
-        # TODO: Create parser to check all ticket values for regex values or text
-        pass
+        except Exception as error:
+            logging.debug(
+                f"Failed to attach document to '{issue}'\n\n{error}\n\n")
+            return False
 
     def update_status(self, id, end_status, transfer_statuses=[], timeout_attempts=10):
         """Change issue to desired status.
@@ -164,9 +187,12 @@ class JiraToolsAPI:
         args:
             id (str): Issue id for status update
             end_status (str): Name of status to update ticket to.
+
         kwargs:
             transfer_statuses (list): Ordered list of intermediary statuses
             timeout_attempts (num): Number of times before while loop times out.
+
+        return (bool): Will return 'True' if completed successfully
         """
         while timeout_attempts != 0:
             transitions = self._JIRA.transitions(id)
@@ -174,11 +200,13 @@ class JiraToolsAPI:
                 if transition['name'] == end_status:
                     jira_ticket = self._JIRA.transition_issue(
                         id, transition['id'])
-                    logging.info('Updated status of "{}" to "{}"'.format(id, end_status))
+                    logging.info(
+                        f"Updated status of '{issue}' to '{end_status}'")
                     return True
                 elif transition['name'] in transfer_statuses:
                     jira_ticket = self._JIRA.transition_issue(
                         id, transition['id'])
             timeout_attempts -= 1
-        logging.debug('Unable to update status of "{}" to end_status ({})'.format(id, end_status))
+        logging.debug(
+            f"Failed to update status of '{id}' to end_status ({end_status})")
         return False
