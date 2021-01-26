@@ -18,43 +18,44 @@ class TenableSqliteVulnDB:
         self.db_name = os.path.basename(filepath)
 
         if not os.path.exists(filepath):
-            print('[INFO] - DB Not Found...')
+            logging.info('DB Not Found...')
             self._build_db()
 
         self.con = sqlite3.connect(filepath)
         self.ignore_statuses = ignore_statuses
 
     def _build_db(self):
-        print('[INFO] - Building DB now...')
+        logging.info('Building DB now...')
 
         con = sqlite3.connect(self.db_name)
 
-        with con:
-            con.execute("""
-                    CREATE TABLE "tickets" (
-                    "ticket_id"	TEXT NOT NULL,
-                    "plugin_id"	TEXT NOT NULL,
-                    "status"	INTEGER,
-                    "create_date"	TEXT NOT NULL,
-                    "modified_date"	TEXT NOT NULL,
-                    PRIMARY KEY("ticket_id"))
-                    """)
-            con.execute("""
-                    CREATE TABLE "ip_addresses" (
-                    "id"	INTEGER NOT NULL UNIQUE,
-                    "ip_address"	TEXT NOT NULL,
-                    "ticket_id"	TEXT NOT NULL,
-                    PRIMARY KEY("id" AUTOINCREMENT))
-                    """)
+        con.execute("""
+                CREATE TABLE "tickets" (
+                "ticket_id"	TEXT NOT NULL,
+                "plugin_id"	TEXT NOT NULL,
+                "status"	INTEGER,
+                "create_date"	TEXT NOT NULL,
+                "modified_date"	TEXT NOT NULL,
+                PRIMARY KEY("ticket_id"))
+                """)
+        con.execute("""
+                CREATE TABLE "hosts" (
+	            "id"	INTEGER NOT NULL UNIQUE,
+	            "host"	TEXT NOT NULL,
+                "ticket_id"	TEXT NOT NULL,
+                FOREIGN KEY("id") REFERENCES "tickets"("ticket_id"),
+                PRIMARY KEY("id" AUTOINCREMENT))
+                """)
+        con.close()
 
-    def add_ticket(self, ticket_number, plugin_id, status, ip_addresses, date=datetime.datetime.now().strftime('%Y-%m-%d')):
+    def add_ticket(self, ticket_number, plugin_id, status, hosts, date=datetime.datetime.now().strftime('%Y-%m-%d')):
         """Add a created ticket to database.
 
         args:
             ticket_number (str): Identification value for ticketing system.
             plugin_id (str): Plugin ID provided by Tenable.
             status (str): Status of new ticket in ticketing system.
-            ip_addresses (list): List of ip's associated with ticket.
+            hosts (list): List of ip's associated with ticket.
         kwargs:
             date (str): [default: current date YYYY-MM-DD] Date ticket was created.
 
@@ -63,7 +64,7 @@ class TenableSqliteVulnDB:
         isinstance(ticket_number, str)
         isinstance(plugin_id, str)
         isinstance(status, str)
-        isinstance(ip_addresses, list)
+        isinstance(hosts, list)
         isinstance(date, str)
 
         try:
@@ -84,8 +85,8 @@ class TenableSqliteVulnDB:
         with self.con:
             self.con.execute(sql)
 
-        for ip in ip_addresses:
-            sql = 'INSERT INTO ip_addresses (ticket_id, ip_address) '
+        for ip in hosts:
+            sql = 'INSERT INTO hosts (ticket_id, host) '
             sql += 'values ("{}","{}")'.format(ticket_number, ip)
 
             with self.con:
@@ -99,9 +100,9 @@ class TenableSqliteVulnDB:
         args:
             ticket_number (str): Identification value for ticketing system to check.
 
-        Return (bool): Confirmation of existance.
+        return (bool): Confirmation of existance.
         """
-        isinstance(ticket_number, str)
+        assert isinstance(ticket_number, str)
         sql = f'SELECT * FROM tickets WHERE ticket_id="{ticket_number}"'
         with self.con:
             data = self.con.execute(sql).fetchone()
@@ -127,19 +128,93 @@ class TenableSqliteVulnDB:
         isinstance(status, str)
         isinstance(date, str)
 
-        status_check = ''
-        for item in self.ignore_statuses:
-            status_check += f'AND status != "{item}" '
+        sql = f'UPDATE tickets SET status="{status}", modified_date="{date}" WHERE ticket_id="{ticket_number}"'
 
-        sql = f'UPDATE tickets SET status="{status}", modified_date="{date}" WHERE ticket_id="{ticket_number}" {status_check}'
-
-        with self.con:
-            data = self.con.execute(sql).fetchone()
-
-        if data == None:
+        try:
+            with self.con:
+                data = self.con.execute(sql)
+                logging.info(
+                    f'Successfully updated status for "{ticket_number}"')
+                return True
+        except:
             logging.info(
                 f'"{ticket_number}" is either already in a completed state or does not exist in "{self.db_name}"')
             return False
+
+    def check_by_plugin_id(self, plugin_id):
+        """Given a plugin id check if it exists in the database
+
+        args:
+            plugin_id (str): Plugin id for a given vulnerability.
+
+        return (bool): Confirmation of exisitance.
+        """
+        assert isinstance(plugin_id, str)
+        sql = f'SELECT * FROM tickets WHERE plugin_id="{plugin_id}"'
+        with self.con:
+            data = self.con.execute(sql).fetchall()
+        if data == None:
+            logging.info(f'"{plugin_id}" does not exist.')
+            return False
         else:
-            logging.info(f'Successfully updated status for "{ticket_number}"')
+            logging.info(f'"{plugin_id}" exists.')
             return True
+
+    def get_by_plugin_id(self, plugin_id):
+        """Given a plugin id return ticket_id and status
+
+        args:
+            plugin_id (str): Plugin id for a given vulnerability.
+
+        return (list): List of each ticket_id and status
+        """
+        assert isinstance(plugin_id, str)
+        sql = f'SELECT * FROM tickets WHERE plugin_id="{plugin_id}"'
+        with self.con:
+            data = self.con.execute(sql).fetchall()
+        if data == None:
+            logging.info((f'No data found for "{plugin_id}"'))
+            return None
+        else:
+            logging.info(f'""')
+
+        # TODO: This is still incomplete and is a work in progress
+
+    def get_all_tickets_by_plugin_id(self, plugin_id):
+        """Given a plugin id get all tickets with working statuses.
+            i.e. Ticket status can not be in self.ignore_statuses
+
+        args:
+            plugin_id (str): Plugin if for a given vulnerability
+
+        return (list): List of all tickets.
+        """
+        assert isinstance(plugin_id, str)
+        ignore_statuses = ['status != "{}"'.format(
+            x) for x in self.ignore_statuses]
+        where = ' AND '.join(ignore_statuses)
+        sql = f'SELECT * FROM tickets WHERE plugin_id="{plugin_id}" AND {where}'
+
+        with self.con:
+            data = self.con.execute(sql).fetchall()
+
+        return data
+
+    def get_all_tickets(self):
+        if len(self.ignore_statuses) != 0:
+            ignore_statuses = ['status != "{}"'.format(
+                x) for x in self.ignore_statuses]
+            where = ' AND '.join(ignore_statuses)
+            sql = f'SELECT ticket_id FROM tickets WHERE {where}'
+        else:
+            sql = 'SELECT ticket_id FROM tickets'
+
+        with self.con:
+            data = self.con.execute(sql).fetchall()
+
+        return data
+
+
+if __name__ == '__main__':
+    db = TenableSqliteVulnDB('tickets.db')
+    print(db.get_all_tickets_by_plugin_id('5192'))
