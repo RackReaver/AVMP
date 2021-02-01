@@ -38,23 +38,70 @@ At this time the tool can only be deployed locally. It works off the command lin
 
 ## How to use
 ```
->>> from XXX import XXX
+>>> from avmp.core import wrapper
 >>> 
+>>> config = {
+>>>     "creds": {
+>>>         "tenable": {
+>>>             "access_key": "",
+>>>             "secret_key": ""
+>>>         },
+>>>         "jira": {
+>>>             "server": "",
+>>>             "api_username": "",
+>>>             "api_password": ""
+>>>         }
+>>>     },
+>>>     "types": {
+>>>         "JIRA_PROJECT_ID": ["JIRA_FIELD_1", "JIRA_FIELD_2", "JIRA_FIELD_3"]
+>>>     },
+>>>     "due_dates": {
+>>>         "Critical": "DAYS_TO_PATCH",
+>>>         "High": "DAYS_TO_PATCH",
+>>>         "Medium": "DAYS_TO_PATCH",
+>>>         "Low": "DAYS_TO_PATCH",
+>>>     },
+>>>     "priorities": {
+>>>         "Critical": "JIRA_ID",
+>>>         "Highest": "JIRA_ID",
+>>>         "High": "JIRA_ID",
+>>>         "Medium": "JIRA_ID",
+>>>         "Low": "JIRA_ID",
+>>>         "Lowest": "JIRA_ID",
+>>>     }
 >>> 
+>>> scan_config = {
+>>>     "scan_name": "TENABLE_SCAN_NAME",
+>>>     "max_tickets": 10,
+>>>     "assignee": "",
+>>>     "min_cvss_score": 6.0,
+>>>     "ticket_db_filepath": "tickets.db",
+>>>     "default_ticket_status": "Open",
+>>>     "time_saved_per_ticket": "10m",
+>>>     "root_ticket": "",
+>>>     "comments": [],
+>>>     "data": {
+>>>         "project": {"key": "JIRA_PROJECT_KEY"},
+>>>         "summary": "Vuln: ",
+>>>         "description": "",
+>>>         "issuetype": {"id": "JIRA_ISSUE_TYPE_ID"},
+>>>         "priority": {"id": ""},
+>>>         "duedate": ""
+>>>     }
+>>>     
+>>> }
 >>> 
+>>> wrapper.main(config, scan_config)
 >>> 
 ```
 
 ## TO-DO
-* Task 1
-* Task 2
-* Task 3
+* Fix IP duplication in vuln_db
+* Build command line utility
 
 ## Built With
 
 * [Click](https://click.palletsprojects.com/) - Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
-* [Title 2](#) - Description
-* [Title 3](#) - Description
 
 ## Authors
 
@@ -63,7 +110,3 @@ At this time the tool can only be deployed locally. It works off the command lin
 ## License
 
 This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details
-
-## Acknowledgments
-
-* **Name** - *[Tool Title](#)* - Tool Description
