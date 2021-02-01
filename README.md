@@ -2,19 +2,13 @@
 
 # Automated Vulnerability Management Program (AVMP)
 
-Open Source automated vulnerability management program.
+A collection of tools for managing and automating vulnerability management.
 
 ## Getting Started
 
-My open source software project looks to streamline the way vulnerability management programs are created and run. I look to include more and more features as time goes on and as I need them myself. 100% automation is the goal but will be semi-autonomus at the beginning.
+Streamline the way vulnerability management programs are created and run. This project is made to be modular so automation can be put into place at any program level.
 
-### Prerequisites
-
-To use this package is will require...
-
-* [Click](https://click.palletsprojects.com/) - Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
-
-## Installation
+## Installation TBA
 
 This package is available on [PyPi](https://pypi.org) and can be installed with the following command:
 
@@ -36,7 +30,7 @@ TBA
 
 ## Deployment
 
-At this time the tool can only be deployed locally. It works off the command line and can be setup in minutes.
+At this time the tool can only be deployed locally.
 
 ## How to use
 ```
@@ -100,10 +94,6 @@ At this time the tool can only be deployed locally. It works off the command lin
 ## TO-DO
 * Fix IP duplication in vuln_db
 * Build command line utility
-
-## Built With
-
-* [Click](https://click.palletsprojects.com/) - Python package for creating beautiful command line interfaces in a composable way with as little code as necessary.
 
 ## Authors
 
