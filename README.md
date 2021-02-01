@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-![Alt text](logo.png "logo")
-=======
 ![Alt text](logo.png?raw=true "logo")
->>>>>>> d68bd911dc31186a07a6a32c22dd8b86e5406b7b
 
 # Automated Vulnerability Management Program (AVMP)
 
