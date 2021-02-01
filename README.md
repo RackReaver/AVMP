@@ -33,9 +33,7 @@ TBA
 At this time the tool can only be deployed locally.
 
 ## How to use
-```
->>> from avmp.core import wrapper
->>> 
+``` 
 >>> config = {
 >>>     "creds": {
 >>>         "tenable": {
@@ -86,6 +84,8 @@ At this time the tool can only be deployed locally.
 >>>     }
 >>>     
 >>> }
+>>> 
+>>> from avmp.core import wrapper
 >>> 
 >>> wrapper.main(config, scan_config)
 >>> 
