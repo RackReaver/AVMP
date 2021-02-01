@@ -1,3 +1,5 @@
+![Alt text](logo.png "logo")
+
 # Automated Vulnerability Management Program (AVMP)
 
 Open Source automated vulnerability management program.
