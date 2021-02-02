@@ -25,12 +25,3 @@ def updater(vuln_db_filepath, config):
         print(f'Updating {ticket[0]} ({num+1} of {len(tickets)})')
         data = jiraAPI._JIRA.issue(ticket[0])
         db.update_status_by_ticket_number(ticket[0], str(data.fields.status))
-
-
-if __name__ == '__main__':
-    import json
-    with open('config.json', 'r') as openFile:
-        config = json.load(openFile)
-
-    vuln_db_filepath = 'tickets.db'
-    updater(vuln_db_filepath, config)
