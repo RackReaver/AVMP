@@ -1,6 +1,6 @@
 """Classes and functions for communicating with Jira.
 """
-__copyright__ = "Copyright (C) 2021  Matt Ferreira"
+__copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
 import logging

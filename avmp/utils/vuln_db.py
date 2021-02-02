@@ -1,6 +1,6 @@
 """Class functions for managing a sqlite database for Tenable vulnerabilities.
 """
-__copyright__ = "Copyright (C) 2020  Matt Ferreira"
+__copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
 import os
