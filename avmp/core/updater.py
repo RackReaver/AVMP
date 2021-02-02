@@ -9,7 +9,7 @@ from avmp.tools.jira_tools import JiraToolsAPI
 from avmp.utils.vuln_db import TenableSqliteVulnDB
 
 
-def updater(vuln_db_filepath, config):
+def main(vuln_db_filepath, config):
     db = TenableSqliteVulnDB(vuln_db_filepath)
     tickets = db.get_all_tickets()
 
