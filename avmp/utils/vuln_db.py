@@ -42,8 +42,17 @@ class TenableSqliteVulnDB:
                 CREATE TABLE "hosts" (
 	            "id"	INTEGER NOT NULL UNIQUE,
 	            "host"	TEXT NOT NULL,
-                "ticket_id"	TEXT NOT NULL,
-                FOREIGN KEY("id") REFERENCES "tickets"("ticket_id"),
+                "created_date"	TEXT NOT NULL,
+                "modified_date"	TEXT NOT NULL,
+                PRIMARY KEY("id" AUTOINCREMENT))
+                """)
+        con.execute("""
+                CREATE TABLE "hosts_tickets" (
+	            "id"	INTEGER NOT NULL UNIQUE,
+	            "host_id"	INTEGER NOT NULL,
+                "ticket_id"	INTEGER NOT NULL,
+                FOREIGN KEY("host_id") REFERENCES "hosts"("id"),
+                FOREIGN KEY("ticket_id") REFERENCES "hosts"("ticket_id"),
                 PRIMARY KEY("id" AUTOINCREMENT))
                 """)
         con.close()
