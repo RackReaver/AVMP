@@ -40,16 +40,15 @@ class TenableSqliteVulnDB:
                 """)
         con.execute("""
                 CREATE TABLE "hosts" (
-	            "id"	INTEGER NOT NULL UNIQUE,
 	            "host"	TEXT NOT NULL,
-                PRIMARY KEY("id" AUTOINCREMENT))
+                PRIMARY KEY("host"))
                 """)
         con.execute("""
                 CREATE TABLE "hosts_tickets" (
 	            "id"	INTEGER NOT NULL UNIQUE,
-	            "host_id"	INTEGER NOT NULL,
+	            "host"	INTEGER NOT NULL,
                 "ticket_id"	INTEGER NOT NULL,
-                FOREIGN KEY("host_id") REFERENCES "hosts"("id"),
+                FOREIGN KEY("host") REFERENCES "hosts"("host"),
                 FOREIGN KEY("ticket_id") REFERENCES "hosts"("ticket_id"),
                 PRIMARY KEY("id" AUTOINCREMENT))
                 """)
@@ -100,10 +99,8 @@ class TenableSqliteVulnDB:
                 with self.con:
                     self.con.execute(sql)
 
-            host_id = self.get_host_id(ip)
-
-            sql = 'INSERT INTO hosts_tickets (host_id, ticket_id)'
-            sql += 'values ("{}","{}")'.format(host_id, ticket_number)
+            sql = 'INSERT INTO hosts_tickets (host, ticket_id)'
+            sql += 'values ("{}","{}")'.format(ip, ticket_number)
 
             with self.con:
                 self.con.execute(sql)
@@ -128,21 +125,6 @@ class TenableSqliteVulnDB:
         else:
             logging.info(f'"{host}" exists.')
             return True
-
-    def get_host_id(self, host):
-        """Given a host get it's id in the database.
-
-        args:
-            host (str): IP/Hostname to check database for
-
-        return (int): Database id for given host.
-        """
-        assert isinstance(host, str)
-        sql = f'SELECT * FROM hosts WHERE host="{host}"'
-        with self.con:
-            data = self.con.execute(sql).fetchone()
-
-        return data[0]
 
     def check_by_ticket_number(self, ticket_number):
         """Given a ticket number check if it exists in the database.
