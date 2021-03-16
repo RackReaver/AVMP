@@ -82,8 +82,8 @@ class TenableSqliteVulnDB:
             assert self.check_by_ticket_number(
                 ticket_number) == False, 'Ticket already exists in DB'
         except AssertionError:
-            logging.exception(
-                f'"{ticket_number}" is already in "{self.db_name}"')
+            logging.exception('"{}" is already in "{}'.format(
+                ticket_number, self.db_name))
             return False
 
         sql = 'INSERT INTO tickets (ticket_id, plugin_id, status, created_date, modified_date) '
