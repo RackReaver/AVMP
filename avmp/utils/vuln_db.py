@@ -51,6 +51,8 @@ class TenableSqliteVulnDB:
 	            "id"	INTEGER NOT NULL UNIQUE,
 	            "host_id"	INTEGER NOT NULL,
                 "ticket_id"	INTEGER NOT NULL,
+                "created_date"	TEXT NOT NULL,
+                "modified_date"	TEXT NOT NULL,
                 FOREIGN KEY("host_id") REFERENCES "hosts"("id"),
                 FOREIGN KEY("ticket_id") REFERENCES "hosts"("ticket_id"),
                 PRIMARY KEY("id" AUTOINCREMENT))
