@@ -82,7 +82,7 @@ class TenableSqliteVulnDB:
             assert self.check_by_ticket_number(
                 ticket_number) == False, 'Ticket already exists in DB'
         except AssertionError:
-            logging.exception('"{}" is already in "{}'.format(
+            logging.exception('"{}" is already in {}'.format(
                 ticket_number, self.db_name))
             return False
 
@@ -104,6 +104,25 @@ class TenableSqliteVulnDB:
                 self.con.execute(sql)
 
         return True
+
+    def check_by_host(self, host):
+        """Given a host check if it exists in the database.
+
+        args:
+            host (str): IP/Hostname to check database for
+
+        return (bool): Confirmation of existance.
+        """
+        assert isinstance(host, str)
+        sql = f'SELECT * FROM hosts WHERE host="{host}"'
+        with self.con:
+            data = self.con.execute(sql).fetchone()
+        if data == None:
+            logging.info(f'"{host}" does not exist.')
+            return False
+        else:
+            logging.info(f'"{host}" exists.')
+            return True
 
     def check_by_ticket_number(self, ticket_number):
         """Given a ticket number check if it exists in the database.
