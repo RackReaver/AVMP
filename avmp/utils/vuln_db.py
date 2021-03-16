@@ -34,7 +34,7 @@ class TenableSqliteVulnDB:
                 "ticket_id"	TEXT NOT NULL,
                 "plugin_id"	TEXT NOT NULL,
                 "status"	INTEGER,
-                "create_date"	TEXT NOT NULL,
+                "created_date"	TEXT NOT NULL,
                 "modified_date"	TEXT NOT NULL,
                 PRIMARY KEY("ticket_id"))
                 """)
@@ -84,7 +84,7 @@ class TenableSqliteVulnDB:
                 f'"{ticket_number}" is already in "{self.db_name}"')
             return False
 
-        sql = 'INSERT INTO tickets (ticket_id, plugin_id, status, create_date, modified_date) '
+        sql = 'INSERT INTO tickets (ticket_id, plugin_id, status, created_date, modified_date) '
         sql += 'values ("{}","{}","{}","{}","{}")'.format(ticket_number,
                                                           plugin_id,
                                                           status,
