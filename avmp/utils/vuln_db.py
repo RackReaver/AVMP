@@ -93,6 +93,7 @@ class TenableSqliteVulnDB:
 
         for ip in hosts:
             if not self.check_by_host(ip):
+                logging.info(f"Adding {ip} to db")
                 sql = 'INSERT INTO hosts (host)'
                 sql += 'values ("{}")'.format(ip)
 
