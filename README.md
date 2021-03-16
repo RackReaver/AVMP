@@ -92,7 +92,6 @@ At this time the tool can only be deployed locally.
 ```
 
 ## TO-DO
-* Fix IP duplication in vuln_db
 * Build command line utility
 
 ## Authors
