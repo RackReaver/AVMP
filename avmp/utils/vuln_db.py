@@ -42,8 +42,6 @@ class TenableSqliteVulnDB:
                 CREATE TABLE "hosts" (
 	            "id"	INTEGER NOT NULL UNIQUE,
 	            "host"	TEXT NOT NULL,
-                "created_date"	TEXT NOT NULL,
-                "modified_date"	TEXT NOT NULL,
                 PRIMARY KEY("id" AUTOINCREMENT))
                 """)
         con.execute("""
@@ -51,8 +49,6 @@ class TenableSqliteVulnDB:
 	            "id"	INTEGER NOT NULL UNIQUE,
 	            "host_id"	INTEGER NOT NULL,
                 "ticket_id"	INTEGER NOT NULL,
-                "created_date"	TEXT NOT NULL,
-                "modified_date"	TEXT NOT NULL,
                 FOREIGN KEY("host_id") REFERENCES "hosts"("id"),
                 FOREIGN KEY("ticket_id") REFERENCES "hosts"("ticket_id"),
                 PRIMARY KEY("id" AUTOINCREMENT))
@@ -97,8 +93,17 @@ class TenableSqliteVulnDB:
             self.con.execute(sql)
 
         for ip in hosts:
-            sql = 'INSERT INTO hosts (ticket_id, host) '
-            sql += 'values ("{}","{}")'.format(ticket_number, ip)
+            if not self.check_by_host(ip):
+                sql = 'INSERT INTO hosts (host)'
+                sql += 'values ("{}")'.format(ip)
+
+                with self.con:
+                    self.con.execute(sql)
+
+            host_id = self.get_host_id(ip)
+
+            sql = 'INSERT INTO hosts_tickets (host_id, ticket_id)'
+            sql += 'values ("{}","{}")'.format(host_id, ticket_number)
 
             with self.con:
                 self.con.execute(sql)
@@ -123,6 +128,21 @@ class TenableSqliteVulnDB:
         else:
             logging.info(f'"{host}" exists.')
             return True
+
+    def get_host_id(self, host):
+        """Given a host get it's id in the database.
+
+        args:
+            host (str): IP/Hostname to check database for
+
+        return (int): Database id for given host.
+        """
+        assert isinstance(host, str)
+        sql = f'SELECT * FROM hosts WHERE host="{host}"'
+        with self.con:
+            data = self.con.execute(sql).fetchone()
+
+        return data[0]
 
     def check_by_ticket_number(self, ticket_number):
         """Given a ticket number check if it exists in the database.
