@@ -26,5 +26,5 @@ setup(name='avmp',
       author_email='rackreaver@gmail.com',
       download_url='https://github.com/RackReaver/AVMP',
       install_requires=install_requirements,
-      package=['avmp']
+      packages=['avmp']
       )
