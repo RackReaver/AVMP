@@ -3,7 +3,7 @@
 __copyright__ = "Copyright (C) 2021  Matt Ferreira"
 __license__ = "Apache License"
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Read contents of README.md file
 from os import path
@@ -26,5 +26,5 @@ setup(name='avmp',
       author_email='rackreaver@gmail.com',
       download_url='https://github.com/RackReaver/AVMP',
       install_requires=install_requirements,
-      packages=['avmp']
+      packages=find_packages()
       )
