@@ -15,19 +15,16 @@ with open('avmp/core/VERSION') as version_file:
     version = version_file.read().strip()
 assert isinstance(version, str)
 
-install_requirements = []
+install_requirements = ['pyTenable', 'requests']
 
 setup(name='avmp',
-      version=version,
-      description='Command line vulnerability program manager.',
-      long_description=README,
-      license='Apache License',
-      author='Matt Ferreira',
-      author_email='rackreaver@gmail.com',
-      download_url='https://github.com/RackReaver/AVMP',
-      install_requires=install_requirements,
-      entry_points={
-          'console_scripts': [
-              'avmp=avmp.cli.cli:cli'
-          ]
-      })
+    version=version,
+    description='Command line vulnerability program manager.',
+    long_description=README,
+    license='Apache License',
+    author='Matt Ferreira',
+    author_email='rackreaver@gmail.com',
+    download_url='https://github.com/RackReaver/AVMP',
+    install_requires=install_requirements,
+    package=['avmp']
+    })
