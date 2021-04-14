@@ -7,6 +7,7 @@ import os
 import logging
 from datetime import datetime, timedelta
 
+from avmp.core.exceptions import APIConnectionError
 from avmp.utils.logging_utils import logging_setup
 from avmp.tools.jira_tools import JiraToolsAPI
 from avmp.tools.tenable_tools import (TenableToolsAPI,
@@ -24,7 +25,7 @@ def main(config, scan_config):
         jiraAPI = JiraToolsAPI(config['creds']['jira']['server'],
                                username=config['creds']['jira']['api_username'],
                                password=config['creds']['jira']['api_password'])
-    except Exception as e:
+    except APIConnectionError as e:
         logging.debug(
             f"{config['creds']['jira']['api_username']} failed to authenticate with Jira.\n\n{e}\n\n")
 
@@ -32,7 +33,7 @@ def main(config, scan_config):
     try:
         tenAPI = TenableToolsAPI(config['creds']['tenable']['access_key'],
                                  config['creds']['tenable']['secret_key'])
-    except Exception as e:
+    except APIConnectionError as e:
         logging.debug(f"Failed to authenticate with Tenable API\n\n{e}\n\n")
 
     # Get raw scan data
