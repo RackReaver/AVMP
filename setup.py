@@ -15,7 +15,7 @@ with open('avmp/core/VERSION') as version_file:
     version = version_file.read().strip()
 assert isinstance(version, str)
 
-install_requirements = ['pyTenable', 'requests']
+install_requirements = ['pyTenable', 'requests', 'jira']
 
 setup(name='avmp',
       version=version,
