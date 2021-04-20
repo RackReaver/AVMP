@@ -22,17 +22,19 @@ def main(vuln_db_filepath, config):
         logging.debug(
             f"{config['creds']['jira']['api_username']} failed to authenticate with Jira.\n\n{e}\n\n")
 
+    COMMENT = 'Updating vulnerability database.'
+
     for num, ticket in enumerate(tickets):
         print(f'Updating {ticket[0]} ({num+1} of {len(tickets)})')
         data = jiraAPI._JIRA.issue(ticket[0])
         logged_work = jiraAPI.log_work(
-            ticket[0], '5m', comment='Updating vulnerability database.')
+            ticket[0], '5m', comment=COMMENT)
 
-        # Attempt logging time to root ticket if provided
+        # Attempt logging time to root ticket if original ticket does not allow
         if root_ticket != "" and logged_work == False:
             root_comment = '{} - {}'.format(
                 ticket[0], COMMENT)
             jiraAPI.log_work(
-                root_ticket, '5m', comment='Updating vulnerability database.')
+                root_ticket, '5m', comment=root_comment)
 
         db.update_status_by_ticket_number(ticket[0], str(data.fields.status))
