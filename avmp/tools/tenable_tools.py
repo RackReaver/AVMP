@@ -362,4 +362,4 @@ def zulu_to_mdy(zulu_date):
 
     return (str): MDY (Month, Day, Year)
     """
-    return datetime.strptime(zulu_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime('%m-%d-%Y %I:%M %p')
+    return datetime.strptime(zulu_date[:19], "%Y-%m-%dT%H:%M:%S").strftime('%m-%d-%Y %I:%M %p')
