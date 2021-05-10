@@ -28,6 +28,7 @@ class TenableToolsAPI:
         self.secret_key = secret_key
 
         self.tio = TenableIO(self.access_key, self.secret_key)
+        self.scans = self.get_all_scan_names()
         logging.info("Authenticated successfully with Tenable")
 
     def get_all_scan_names(self):
