@@ -12,3 +12,8 @@ class Error(Exception):
 class APIConnectionError(Error):
     """Raided when connection to API breaks"""
     pass
+
+
+class MissingConfiguration(Error):
+    """Missing variables in configuration file"""
+    pass
