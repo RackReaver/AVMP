@@ -33,7 +33,8 @@ TBA
 At this time the tool can only be deployed locally.
 
 ## How to use
-``` 
+
+```
 >>> config = {
 >>>     "creds": {
 >>>         "tenable": {
@@ -63,8 +64,10 @@ At this time the tool can only be deployed locally.
 >>>         "Low": "JIRA_ID",
 >>>         "Lowest": "JIRA_ID",
 >>>     }
->>> 
->>> scan_config = {
+>>>
+>>> # process_type dynamic generates tickets directly from Tenable.
+>>> process_config = {
+>>>     "process_type": "dynamic",
 >>>     "scan_name": "TENABLE_SCAN_NAME",
 >>>     "max_tickets": 10,
 >>>     "assignee": "",
@@ -82,21 +85,22 @@ At this time the tool can only be deployed locally.
 >>>         "priority": {"id": ""},
 >>>         "duedate": ""
 >>>     }
->>>     
+>>>
 >>> }
->>> 
+>>>
 >>> from avmp.core import wrapper
->>> 
->>> wrapper.main(config, scan_config)
->>> 
+>>>
+>>> wrapper.main(config, process_config)
+>>>
 ```
 
 ## TO-DO
-* Build command line utility
+
+- Build command line utility
 
 ## Authors
 
-* **Matt Ferreira** - *Developer* - [RackReaver](https://github.com/RackReaver)
+- **Matt Ferreira** - _Developer_ - [RackReaver](https://github.com/RackReaver)
 
 ## License
 
