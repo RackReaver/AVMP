@@ -16,7 +16,7 @@ class App():
     """Data associated with running AVMP.
     """
 
-    def __init__(self, config, scan_config):
+    def __init__(self, config, process_config):
         """Build AVMP app given the config file.
 
         args:
@@ -26,8 +26,35 @@ class App():
         return: None
         """
         assert isinstance(config, dict)
-        self.config = config
-        self.process_config = scan_config
+        assert isinstance(process_config, dict)
+
+        self.config = self.config_setup(config)
+        self.process_config = self.process_config_setup(process_config)
+
+    def config_setup(self, config):
+        """Setup function for config file. Used to process/add missing information.
+
+        args:
+            config (dict): AVMP configuration file
+
+        return (dict): Modified python config dictionary
+        """
+
+        return config
+
+    def process_config_setup(self, process_config):
+        """Setup function for process config file. Used to process/add missing information.
+
+        args:
+            config (dict): Process configuration file
+
+        return (dict): Modified python process config dictionary
+        """
+
+        if "allow_ticket_duplication" not in process_config:
+            process_config['allow_ticket_duplication'] = False
+
+        return process_config
 
     def tenAPIcon(self):
         """Check for credentials in config and connect to Tenable IO.
