@@ -148,7 +148,7 @@ def dynamic(app):
             dups = db.get_all_tickets_by_plugin_id(
                 ticket['Vuln Data']['Plugin ID'])
 
-            # TODO: Add abiilty to open ticket for new IP's and link to existing vuln ticket.
+            # TODO: Add abilty to open ticket for new IP's and link to existing vuln ticket.
 
             if len(dups) == 0 or app.process_config['allow_ticket_duplication'] == True:
                 if len(dups) != 0:
