@@ -68,6 +68,7 @@ At this time the tool can only be deployed locally.
 >>> # process_type dynamic generates tickets directly from Tenable.
 >>> process_config = {
 >>>     "process_type": "dynamic",
+>>>     "allow_ticket_duplication": "False",
 >>>     "scan_name": "TENABLE_SCAN_NAME",
 >>>     "max_tickets": 10,
 >>>     "assignee": "",
