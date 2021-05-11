@@ -149,7 +149,12 @@ def dynamic(app):
                 ticket['Vuln Data']['Plugin ID'])
 
             # TODO: Add abiilty to open ticket for new IP's and link to existing vuln ticket.
-            if len(dups) == 0:
+
+            if len(dups) == 0 or app.process_config['allow_ticket_duplication'] == True:
+                if len(dups) != 0:
+                    logging.info('Plugin ID ({}) has an open ticket. Creating duplicate...'.format(
+                        ticket['Vuln Data']['Plugin ID']))
+
                 current = app.jiraAPI.create(data)
                 ticket_counter += 1
                 db.add_ticket(current, ticket['Vuln Data']
