@@ -16,8 +16,8 @@ def main(vuln_db_filepath, config):
 
     try:
         jiraAPI = JiraToolsAPI(config['creds']['jira']['server'],
-                               username=config['creds']['jira']['api_username'],
-                               password=config['creds']['jira']['api_password'])
+                               username=config['creds']['jira']['username'],
+                               password=config['creds']['jira']['password'])
     except Exception as e:
         logging.debug(
             f"{config['creds']['jira']['api_username']} failed to authenticate with Jira.\n\n{e}\n\n")

@@ -43,8 +43,8 @@ At this time the tool can only be deployed locally.
 >>>         },
 >>>         "jira": {
 >>>             "server": "",
->>>             "api_username": "",
->>>             "api_password": ""
+>>>             "username": "",
+>>>             "password": ""
 >>>         }
 >>>     },
 >>>     "types": {
