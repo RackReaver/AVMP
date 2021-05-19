@@ -17,3 +17,8 @@ class APIConnectionError(Error):
 class MissingConfiguration(Error):
     """Missing variables in configuration file"""
     pass
+
+
+class InputError(Error):
+    """Incorrect input provided to function or class"""
+    pass
