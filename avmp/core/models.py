@@ -26,10 +26,12 @@ class App():
         return: None
         """
         assert isinstance(config, dict)
-        assert isinstance(process_config, dict)
+        if process_config != None:
+            assert isinstance(process_config, dict)
 
         self.config = self.config_setup(config)
-        self.process_config = self.process_config_setup(process_config)
+        if process_config != None:
+            self.process_config = self.process_config_setup(process_config)
 
     def config_setup(self, config):
         """Setup function for config file. Used to process/add missing information.
