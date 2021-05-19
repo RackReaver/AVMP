@@ -7,9 +7,7 @@ import logging
 from jira import JIRA
 from getpass import getpass
 
-
-class ScriptError(Exception):
-    pass
+from avmp.core.exceptions import InputError
 
 
 class JiraToolsAPI:
@@ -108,7 +106,7 @@ class JiraToolsAPI:
                 return False
 
         else:
-            raise ScriptError('A list must be passed to the labels argument')
+            raise InputError('A list must be passed to the labels argument')
 
     def comment(self, issue, comment):
         """Apply a comment to a given issue.
@@ -201,7 +199,7 @@ class JiraToolsAPI:
                     jira_ticket = self._JIRA.transition_issue(
                         id, transition['id'])
                     logging.info(
-                        f"Updated status of '{issue}' to '{end_status}'")
+                        f"Updated status of '{id}' to '{end_status}'")
                     return True
                 elif transition['name'] in transfer_statuses:
                     jira_ticket = self._JIRA.transition_issue(
