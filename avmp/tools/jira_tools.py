@@ -199,7 +199,7 @@ class JiraToolsAPI:
                     jira_ticket = self._JIRA.transition_issue(
                         id, transition['id'])
                     logging.info(
-                        f"Updated status of '{issue}' to '{end_status}'")
+                        f"Updated status of '{id}' to '{end_status}'")
                     return True
                 elif transition['name'] in transfer_statuses:
                     jira_ticket = self._JIRA.transition_issue(
