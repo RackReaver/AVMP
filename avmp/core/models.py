@@ -20,7 +20,8 @@ class App():
 
         args:
             config (dict): Imported json data from config
-            scan_config (dict): Imported json data from scan_config
+            process_config (dict): Imported json data from process_config. 
+                                    None is also accepted.
 
         return: None
         """
