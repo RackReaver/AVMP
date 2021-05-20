@@ -159,6 +159,28 @@ class TenableToolsAPI:
 
         return history_id, scan_date
 
+    def get_folders(self):
+        """Get list of Tenable folders
+
+        return (list): Folder meta data
+        """
+        return self.tio.folders.list()
+
+    def create_folder(self, folder_name):
+        """Given a folder name check if it exists, if not create it.
+
+        args:
+            folder_name (str): Name of folder to be created
+
+        return (str): Folder id, will create if it doesn't already exist
+        """
+        for folder in self.tio.folders.list():
+            if folder['name'] == folder_name:
+                return folder['id']
+
+        folder = self.tio.folders.create(folder_name)
+        return folder['id']
+
 
 class TenableToolsCSV:
     def __init__(self,  filepath, min_cvss_score=None):
