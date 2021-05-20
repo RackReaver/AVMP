@@ -4,7 +4,9 @@ __copyright__ = "Copyright (C) 2021  Matt Ferreira"
 __license__ = "Apache License"
 
 import json
+
 from avmp.core.models import App
+from avmp.tools.python_tools import extract_ips
 
 
 def main(issue, config):
@@ -17,6 +19,17 @@ def main(issue, config):
     app = App(config, None)
     app.tenAPIcon()
     app.jiraAPIcon()
+
+    current = app.jiraAPI._JIRA.issue(issue)
+
+    ips = extract_ips(current.fields.description)
+
+    # Remove duplicate ips
+    ips = [ip for num, ip in enumerate(ips) if ip not in ips[:num]]
+
+    print(app.tenAPI.create_folder('autoRescans - AVMP'))
+    # scan = app.tenAPI.scans.create(name='{} - Rescan'.format(issue),
+    #                                targets=ips)
 
 
 if __name__ == '__main__':
