@@ -3,6 +3,7 @@
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
+import re
 import os
 import json
 import logging
@@ -58,3 +59,20 @@ class DataSetup:
         except Exception as e:
             logging.warning(e)
             return False
+
+
+def extract_ips(text):
+    """Given a string extract all the ip addresses
+
+    args:
+        text (str): String to extract ip addresses from
+
+    return (list): List of IP Addresses
+    """
+    IP_ADDRESS = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
+
+    ip_addr_re = re.compile(IP_ADDRESS)
+
+    ips = ip_addr_re.findall(text)
+
+    return ips
