@@ -6,7 +6,6 @@ __license__ = "Apache License"
 import os
 import logging
 
-from avmp.utils.logging_utils import logging_setup
 from avmp.tools.tenable_tools import TenableToolsAPI
 from avmp.tools.jira_tools import JiraToolsAPI
 from avmp.core.exceptions import MissingConfiguration
