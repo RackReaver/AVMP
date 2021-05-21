@@ -15,6 +15,8 @@ class App():
     """Data associated with running AVMP.
     """
 
+    RESCAN_FOLDER_NAME = 'autoRescans - AVMP'
+
     def __init__(self, config, process_config):
         """Build AVMP app given the config file.
 
