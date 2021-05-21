@@ -178,8 +178,7 @@ class TenableToolsAPI:
             if folder['name'] == folder_name:
                 return folder['id']
 
-        folder = self.tio.folders.create(folder_name)
-        return folder['id']
+        return self.tio.folders.create(folder_name)
 
 
 class TenableToolsCSV:
