@@ -98,6 +98,8 @@ At this time the tool can only be deployed locally.
 ## TO-DO
 
 - Build command line utility
+- Add persistent logging to wrapper.main() as a return value
+- Build usage/how to use documentation for README.md
 
 ## Authors
 
