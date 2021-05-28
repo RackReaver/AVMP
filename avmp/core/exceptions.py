@@ -10,7 +10,7 @@ class Error(Exception):
 
 
 class APIConnectionError(Error):
-    """Raided when connection to API breaks"""
+    """Raised when connection to API breaks"""
     pass
 
 
