@@ -101,6 +101,8 @@ def dynamic(app):
 
     tickets = TenableToolsCSV.organize(items)
     logging.info('Completed scan data import')
+    logging.info('Creating tickets for "{}"'.format(
+        app.process_config['scan_name']))
 
     ticket_counter = 0
     for ticket in tickets.values():
