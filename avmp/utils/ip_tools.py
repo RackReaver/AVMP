@@ -31,7 +31,3 @@ def get_all_networks_ips(networks):
         final = [[ip, network] for ip in ips]
         final_list = final_list + final
     return final_list
-
-
-if __name__ == '__main__':
-    pass
