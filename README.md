@@ -18,7 +18,13 @@ $ pip install <project_name>
 
 ## Running the tests
 
-TBA
+Check code coverage
+
+```
+>>> coverage run -m pytest
+>>>
+>>> coverage report
+```
 
 ### Break down into end to end tests
 

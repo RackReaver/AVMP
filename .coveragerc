@@ -1,0 +1,10 @@
+[run]
+branch=True
+source =
+    avmp
+omit = 
+    .venv/*
+    .vscode/*
+
+[report]
+show_missing=True
