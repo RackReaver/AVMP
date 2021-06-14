@@ -6,8 +6,6 @@ A collection of tools for managing and automating vulnerability management.
 
 Streamline the way vulnerability management programs are created and run. This project is made to be modular so automation can be put into place at any program level.
 
----
-
 ## Things to Note
 
 1. **API keys for both Tenable IO and Jira are required.**
@@ -16,13 +14,9 @@ Streamline the way vulnerability management programs are created and run. This p
 
 3. There is a bit of setup to use the tool as it is in development, I am planning on creating a quick start script but until then please see [How to use](#how-to-use).
 
----
-
 ## Installation
 
 This tool is still being actively developed and does not have a version 1 at this time.
-
----
 
 ## Running the tests
 
@@ -34,17 +28,13 @@ Check code coverage
 >>> coverage report
 ```
 
----
-
 ## Deployment
 
 At this time the tool can only be deployed locally.
 
----
-
 ## How to use
 
-Folder Structure `vuln_manager`:
+### Folder Structure `vuln_manager`:
 
 ```
 vuln_manager
@@ -58,12 +48,7 @@ vuln_manager
 +-- run.py
 ```
 
-Main configuration file `config.json`:
-
-- "creds": Data required from APIs to run package
-- "types": List of required fields for a given Jira project (not required, but a good idea to ensure process_configs contain all required fields before making an API request).
-- "due_dates": Used to set Jira due date based on Tenable's severity rating.
-- "priorities": Mapping Tenable severity rating to Jira priorities (defaults to `Low` if others are unavailable).
+### Main configuration file `config.json`:
 
 ```
 {
@@ -95,36 +80,98 @@ Main configuration file `config.json`:
 }
 ```
 
-Dynamic process config `tenable_scan.config`:
+| Field      | Required | Description                                                                                                                                                          |
+| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| creds      | yes      | Data required from APIs to run package                                                                                                                               |
+| types      | no       | List of required fields for a given Jira project (not required, but a good idea to ensure process_configs contain all required fields before making an API request). |
+| due_dates  | yes      | Used to set Jira due date based on Tenable's severity rating.                                                                                                        |
+| priorities | yes      | Mapping Tenable severity rating to Jira priorities (defaults to `Low` if others are unavailable).                                                                    |
+
+### Dynamic process config `dynamic_process_config.json`:
 
 ```
->>>
->>> # process_type dynamic generates tickets directly from Tenable.
->>> process_config = {
->>>     "process_type": "dynamic",
->>>     "allow_ticket_duplication": "False",
->>>     "scan_name": "TENABLE_SCAN_NAME",
->>>     "max_tickets": 10,
->>>     "assignee": "",
->>>     "min_cvss_score": 6.0,
->>>     "ticket_db_filepath": "tickets.db",
->>>     "default_ticket_status": "Open",
->>>     "time_saved_per_ticket": "10m",
->>>     "root_ticket": "",
->>>     "comments": [],
->>>     "data": {
->>>         "project": {"key": "JIRA_PROJECT_KEY"},
->>>         "summary": "Vuln: ",
->>>         "description": "",
->>>         "issuetype": {"id": "JIRA_ISSUE_TYPE_ID"},
->>>         "priority": {"id": ""},
->>>         "duedate": ""
->>>     }
->>>
->>> }
+{
+    "process_type": "dynamic",
+    "allow_ticket_duplication": "False",
+    "scan_name": "TENABLE_SCAN_NAME",
+    "max_tickets": 10,
+    "assignee": "",
+    "min_cvss_score": 6.0,
+    "ticket_db_filepath": "tickets.db",
+    "default_ticket_status": "Open",
+    "time_saved_per_ticket": "10m",
+    "root_ticket": "",
+    "comments": [],
+    "data": {
+        "project": {"key": "JIRA_PROJECT_KEY"},
+        "summary": "Vuln: ",
+        "description": "",
+        "issuetype": {"id": "JIRA_ISSUE_TYPE_ID"},
+        "priority": {"id": ""},
+        "duedate": ""
+    }
+}
 ```
 
-Runtime `run.py`:
+| Field                    | Required | Description                                                                                                                        |
+| ------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| process_type             | yes      | Must be `dynamic`                                                                                                                  |
+| allow_ticket_duplication | no       | [default: false] Prevent multiple tickets for same plugin_id to be generated (This is based on the `ticket_db_filepath` provided). |
+| scan_name                | yes      | Name of scan inside of Tenable IO                                                                                                  |
+| max_tickets              | no       | Number of tickets to be created each time this configuration is used (optional - will create all if value is blank).               |
+| assignee                 | no       | Username to assign all created tickets to (optional).                                                                              |
+| min_cvss_score           | yes      | This is based on the CVSS Base Score provided by Tenable IO, allows for configurations based on severity.                          |
+| ticket_db_filepath       | yes      | Location of SQLite database file for tracking tickets (DB will be created if ones doesn't already exist on the path provided).     |
+| default_ticket_status    | yes      | First status for database entry, this will change when the auto updater is run.                                                    |
+| time_saved_per_ticket    | yes      | Jira time value to log work for calculating time saved.                                                                            |
+| root_ticket              | no       | If unable to log work against newly created ticket this value will provide a ticket that allows work to be logged against it.      |
+| comments                 | no       | A list of strings that will generate comments.                                                                                     |
+| data                     | yes      | API values required to generate a Jira ticket (issue).                                                                             |
+
+### Static process config `static_process_config.json`:
+
+```
+{
+    "process_type": "static",
+    "time_saved_per_ticket": "5m",
+    "time_saved_comment": "Time saved through automation",
+    "parent_ticket": {
+        "project": {"key": "JIRA_PROJECT_KEY"},
+        "summary": "SUMMARY",
+        "description": "DESCRIPTION",
+        "issuetype": {"name": "ISSUE_TYPE_NAME"},
+        "assignee": {"name": ""},
+        "priority": {"id": "PRIORITY_ID"}
+    },
+    "sub_tasks": {
+        "sub_task_1": {
+            "project": {"key": "JIRA_PROJECT_KEY"},
+            "summary": "SUMMARY",
+            "description": "DESCRIPTION",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        },
+        "sub_task_2": {
+            "project": {"key": "JIRA_PROJECT_KEY"},
+            "summary": "SUMMARY",
+            "description": "DESCRIPTION",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        }
+    }
+
+}
+```
+
+| Field Name            | Required | Description                                                                  |
+| --------------------- | -------- | ---------------------------------------------------------------------------- |
+| process_name          | yes      | Must be `static`                                                             |
+| time_saved_per_ticket | no       | Jira time value to log work for calculating time saved.                      |
+| time_saved_comment    | no       | Comment for Jira work log for time saved.                                    |
+| parent_ticket         | yes      | API values required to generate a Jira ticket (issue).                       |
+| sub_tasks             | no       | JSON container for any sub tasks that should be created under parent ticket. |
+
+### Runtime `run.py`:
 
 ```
 from avmp.core import wrapper
