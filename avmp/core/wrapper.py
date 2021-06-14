@@ -128,15 +128,14 @@ def dynamic(app):
             if data['priority']['id'] == '':
                 # Selects proper priority rating inside of Jira
                 if ticket['Vuln Data']['Risk'] == 'Critical':
-                    data['priority']['id'] = app.config['priorities']['Highest']
+                    data['priority']['id'] = app.config['priorities']['Critical']
                 elif ticket['Vuln Data']['Risk'] == 'High':
                     data['priority']['id'] = app.config['priorities']['High']
                 elif ticket['Vuln Data']['Risk'] == 'Medium':
                     data['priority']['id'] = app.config['priorities']['Medium']
-                elif ticket['Vuln Data']['Risk'] == 'Low':
-                    data['priority']['id'] = app.config['priorities']['Low']
                 else:
-                    data['priority']['id'] = app.config['priorities']['Lowest']
+                    data['priority']['id'] = app.config['priorities']['Low']
+
             if data['duedate'] == '':
                 # Build due date
                 today = datetime.now()
