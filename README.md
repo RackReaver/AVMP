@@ -60,7 +60,6 @@ vuln_manager
 |  +-- static/      # Configurations for generating repatitive project/task tickets
 |
 +-- config.json
-+-- run.py
 ```
 
 #### Main configuration file `config.json`:
