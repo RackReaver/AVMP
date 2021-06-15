@@ -187,7 +187,7 @@ vuln_manager
 
 ## TO-DO
 
-- Build command line utility
+- ~~Build command line utility~~
 - Add persistent logging to wrapper.main() as a return value
 - Build usage/how to use documentation for README.md
 - Add documentation for dynamic process_config's to README.md
