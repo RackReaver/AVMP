@@ -64,7 +64,7 @@ vuln_manager
 
 #### Main configuration file `config.json`:
 
-```
+```json
 {
     "creds": {
         "tenable": {
@@ -103,27 +103,27 @@ vuln_manager
 
 #### Dynamic process config `dynamic_process_config.json`:
 
-```
+```json
 {
-    "process_type": "dynamic",
-    "allow_ticket_duplication": "False",
-    "scan_name": "TENABLE_SCAN_NAME",
-    "max_tickets": 10,
-    "assignee": "",
-    "min_cvss_score": 6.0,
-    "ticket_db_filepath": "tickets.db",
-    "default_ticket_status": "Open",
-    "time_saved_per_ticket": "10m",
-    "root_ticket": "",
-    "comments": [],
-    "data": {
-        "project": {"key": "JIRA_PROJECT_KEY"},
-        "summary": "Vuln: ",
-        "description": "",
-        "issuetype": {"id": "JIRA_ISSUE_TYPE_ID"},
-        "priority": {"id": ""},
-        "duedate": ""
-    }
+  "process_type": "dynamic",
+  "allow_ticket_duplication": "False",
+  "scan_name": "TENABLE_SCAN_NAME",
+  "max_tickets": 10,
+  "assignee": "",
+  "min_cvss_score": 6.0,
+  "ticket_db_filepath": "tickets.db",
+  "default_ticket_status": "Open",
+  "time_saved_per_ticket": "10m",
+  "root_ticket": "",
+  "comments": [],
+  "data": {
+    "project": { "key": "JIRA_PROJECT_KEY" },
+    "summary": "Vuln: ",
+    "description": "",
+    "issuetype": { "id": "JIRA_ISSUE_TYPE_ID" },
+    "priority": { "id": "" },
+    "duedate": ""
+  }
 }
 ```
 
@@ -144,36 +144,35 @@ vuln_manager
 
 #### Static process config `static_process_config.json`:
 
-```
+```json
 {
-    "process_type": "static",
-    "time_saved_per_ticket": "5m",
-    "time_saved_comment": "Time saved through automation",
-    "parent_ticket": {
-        "project": {"key": "JIRA_PROJECT_KEY"},
-        "summary": "SUMMARY",
-        "description": "DESCRIPTION",
-        "issuetype": {"name": "ISSUE_TYPE_NAME"},
-        "assignee": {"name": ""},
-        "priority": {"id": "PRIORITY_ID"}
+  "process_type": "static",
+  "time_saved_per_ticket": "5m",
+  "time_saved_comment": "Time saved through automation",
+  "parent_ticket": {
+    "project": { "key": "JIRA_PROJECT_KEY" },
+    "summary": "SUMMARY",
+    "description": "DESCRIPTION",
+    "issuetype": { "name": "ISSUE_TYPE_NAME" },
+    "assignee": { "name": "" },
+    "priority": { "id": "PRIORITY_ID" }
+  },
+  "sub_tasks": {
+    "sub_task_1": {
+      "project": { "key": "JIRA_PROJECT_KEY" },
+      "summary": "SUMMARY",
+      "description": "DESCRIPTION",
+      "issuetype": { "name": "Sub-task" },
+      "assignee": { "name": "" }
     },
-    "sub_tasks": {
-        "sub_task_1": {
-            "project": {"key": "JIRA_PROJECT_KEY"},
-            "summary": "SUMMARY",
-            "description": "DESCRIPTION",
-            "issuetype": {"name": "Sub-task"},
-            "assignee": {"name": ""}
-        },
-        "sub_task_2": {
-            "project": {"key": "JIRA_PROJECT_KEY"},
-            "summary": "SUMMARY",
-            "description": "DESCRIPTION",
-            "issuetype": {"name": "Sub-task"},
-            "assignee": {"name": ""}
-        }
+    "sub_task_2": {
+      "project": { "key": "JIRA_PROJECT_KEY" },
+      "summary": "SUMMARY",
+      "description": "DESCRIPTION",
+      "issuetype": { "name": "Sub-task" },
+      "assignee": { "name": "" }
     }
-
+  }
 }
 ```
 
