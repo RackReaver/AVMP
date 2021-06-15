@@ -34,7 +34,22 @@ At this time the tool can only be deployed locally.
 
 ## How to use
 
-### Folder Structure `vuln_manager`:
+```
+$ avmp --help
+AVMP command-line app.
+
+Usage:
+    avmp run [--config filepath] <process_config>
+    avmp -h | --help
+    avmp --version
+
+Options:
+    -h --help           Show this screen.
+    --version           Show version.
+    --config=filepath   AVMP configuration file [default: config.json]
+```
+
+#### Folder Structure `vuln_manager`:
 
 ```
 vuln_manager
@@ -48,7 +63,7 @@ vuln_manager
 +-- run.py
 ```
 
-### Main configuration file `config.json`:
+#### Main configuration file `config.json`:
 
 ```
 {
@@ -87,7 +102,7 @@ vuln_manager
 | due_dates  | yes      | Used to set Jira due date based on Tenable's severity rating.                                                                                                        |
 | priorities | yes      | Mapping Tenable severity rating to Jira priorities (defaults to `Low` if others are unavailable).                                                                    |
 
-### Dynamic process config `dynamic_process_config.json`:
+#### Dynamic process config `dynamic_process_config.json`:
 
 ```
 {
@@ -128,7 +143,7 @@ vuln_manager
 | comments                 | no       | A list of strings that will generate comments.                                                                                     |
 | data                     | yes      | API values required to generate a Jira ticket (issue).                                                                             |
 
-### Static process config `static_process_config.json`:
+#### Static process config `static_process_config.json`:
 
 ```
 {
@@ -170,23 +185,6 @@ vuln_manager
 | time_saved_comment    | no       | Comment for Jira work log for time saved.                                    |
 | parent_ticket         | yes      | API values required to generate a Jira ticket (issue).                       |
 | sub_tasks             | no       | JSON container for any sub tasks that should be created under parent ticket. |
-
-### Runtime `run.py`:
-
-```
-from avmp.core import wrapper
-
-if len(sys.argv) == 2:
-    with open('config.json', 'r') as openFile:
-        config = json.load(openFile)
-    with open(sys.argv[1], 'r') as openFile:
-        process_config = json.load(openFile)
-
-    wrapper.main(config, process_config)
-
-else:
-    print('Please provide filepath for process config file.')
-```
 
 ## TO-DO
 
