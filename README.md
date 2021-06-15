@@ -189,9 +189,9 @@ vuln_manager
 
 - ~~Build command line utility~~
 - Add persistent logging to wrapper.main() as a return value
-- Build usage/how to use documentation for README.md
-- Add documentation for dynamic process_config's to README.md
-- Add static process_config example to README.md
+- ~~Build usage/how to use documentation for README.md~~
+- ~~Add documentation for dynamic process_config's to README.md~~
+- ~~Add static process_config example to README.md~~
 
 ## Authors
 
