@@ -191,6 +191,10 @@ vuln_manager
 - ~~Build usage/how to use documentation for README.md~~
 - ~~Add documentation for dynamic process_config's to README.md~~
 - ~~Add static process_config example to README.md~~
+- Add ticket reference table to database
+  - Track project and process ticket numbers for automated linking
+- Add support for [SecurityScorecard](https://securityscorecard.com/)
+- Build tests for code base
 
 ## Authors
 
