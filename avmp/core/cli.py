@@ -3,6 +3,7 @@ AVMP command-line app.
 
 Usage:
     avmp run [--config filepath] <process_config>
+    avmp update [--config filepath] <ticket_db_filepath>
     avmp -h | --help
     avmp --version
 
@@ -17,11 +18,11 @@ __license__ = "Apache License"
 from docopt import docopt
 import json
 
-from avmp.core import wrapper
+from avmp.core import wrapper, updater
 
 
 def main():
-    args = docopt(__doc__, version='0.0.1')
+    args = docopt(__doc__, version='0.0.2')
 
     if args['run'] == True:
 
@@ -31,3 +32,10 @@ def main():
             process_config = json.load(openFile)
 
         wrapper.main(config, process_config)
+
+    elif args['update'] == True:
+
+        with open(args['--config'], 'r') as openFile:
+            config = json.load(openFile)
+
+        updater.main(args['<ticket_db_filepath>'], config)
