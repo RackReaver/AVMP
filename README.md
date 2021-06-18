@@ -40,6 +40,7 @@ AVMP command-line app.
 
 Usage:
     avmp run [--config filepath] <process_config>
+    avmp update [--config filepath] <ticket_db_filepath>
     avmp -h | --help
     avmp --version
 
