@@ -61,6 +61,7 @@ vuln_manager
 |  +-- static/      # Configurations for generating repatitive project/task tickets
 |
 +-- config.json
++-- tickets.db      # This is generated automatically and is mapped to in the process_configs
 ```
 
 #### Main configuration file `config.json`:
