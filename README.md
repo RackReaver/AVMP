@@ -124,6 +124,8 @@ vuln_manager
 
 #### Dynamic process config `dynamic_process_config.json`:
 
+See [examples](examples/dynamic_process_configs) for context on use cases.
+
 ```json
 {
   "process_type": "dynamic",
@@ -164,6 +166,8 @@ vuln_manager
 | data                     | yes      | API values required to generate a Jira ticket (issue).                                                                             |
 
 #### Static process config `static_process_config.json`:
+
+See [examples](examples/static_process_configs) for context on use cases.
 
 ```json
 {
@@ -212,6 +216,7 @@ vuln_manager
   - Track project and process ticket numbers for automated linking
 - Add support for [SecurityScorecard](https://securityscorecard.com/)
 - Build tests for code base
+- Add example dynamic and status process configs
 
 ## Authors
 
