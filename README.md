@@ -6,6 +6,25 @@ A collection of tools for managing and automating vulnerability management.
 
 Streamline the way vulnerability management programs are created and run. This project is made to be modular so automation can be put into place at any program level.
 
+---
+
+## Table of Contents
+
+- [Things to Note](#things-to-note)
+- [Intallation](#installation)
+- [Running the tests](#running-the-tests)
+- [Deployment](#deployment)
+- [How to use](#how-to-use)
+  - [Folder Structure](#folder-structure-vulnmanager)
+  - [Main configuration file "config.json"](#main-configuration-file-configjson)
+  - [Dynamic process config "dynamic_process_config.json](#dynamic-process-config-dynamicprocessconfigjson)
+  - [Static process config "static_process_config.json"](#static-process-config-staticprocessconfigjson)
+- [TO-DO](#to-do)
+- [Authors](#authors)
+- [License](#license)
+
+---
+
 ## Things to Note
 
 1. **API keys for both Tenable IO and Jira are required.**
