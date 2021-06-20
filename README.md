@@ -77,7 +77,7 @@ vuln_manager
 +-- process_configs
 |  |
 |  +-- dynamic/     # Configurations for generating vulnerability tickets
-|  +-- static/      # Configurations for generating repatitive project/task tickets
+|  +-- static/      # Configurations for generating repetitive project/task tickets
 |
 +-- config.json
 +-- tickets.db      # This is generated automatically and is mapped to in the process_configs
