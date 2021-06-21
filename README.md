@@ -6,6 +6,25 @@ A collection of tools for managing and automating vulnerability management.
 
 Streamline the way vulnerability management programs are created and run. This project is made to be modular so automation can be put into place at any program level.
 
+---
+
+## Table of Contents
+
+- [Things to Note](#things-to-note)
+- [Intallation](#installation)
+- [Running the tests](#running-the-tests)
+- [Deployment](#deployment)
+- [How to use](#how-to-use)
+  - [Folder Structure](#folder-structure-vulnmanager)
+  - [Main configuration file "config.json"](#main-configuration-file-configjson)
+  - [Dynamic process config "dynamic_process_config.json](#dynamic-process-config-dynamicprocessconfigjson)
+  - [Static process config "static_process_config.json"](#static-process-config-staticprocessconfigjson)
+- [TO-DO](#to-do)
+- [Authors](#authors)
+- [License](#license)
+
+---
+
 ## Things to Note
 
 1. **API keys for both Tenable IO and Jira are required.**
@@ -58,9 +77,10 @@ vuln_manager
 +-- process_configs
 |  |
 |  +-- dynamic/     # Configurations for generating vulnerability tickets
-|  +-- static/      # Configurations for generating repatitive project/task tickets
+|  +-- static/      # Configurations for generating repetitive project/task tickets
 |
 +-- config.json
++-- tickets.db      # This is generated automatically and is mapped to in the process_configs
 ```
 
 #### Main configuration file `config.json`:
@@ -104,6 +124,8 @@ vuln_manager
 
 #### Dynamic process config `dynamic_process_config.json`:
 
+See [examples](examples/dynamic_process_configs) for context on use cases.
+
 ```json
 {
   "process_type": "dynamic",
@@ -144,6 +166,8 @@ vuln_manager
 | data                     | yes      | API values required to generate a Jira ticket (issue).                                                                             |
 
 #### Static process config `static_process_config.json`:
+
+See [examples](examples/static_process_configs) for context on use cases.
 
 ```json
 {
@@ -187,15 +211,12 @@ vuln_manager
 
 ## TO-DO
 
-- ~~Build command line utility~~
 - Add persistent logging to wrapper.main() as a return value
-- ~~Build usage/how to use documentation for README.md~~
-- ~~Add documentation for dynamic process_config's to README.md~~
-- ~~Add static process_config example to README.md~~
 - Add ticket reference table to database
   - Track project and process ticket numbers for automated linking
 - Add support for [SecurityScorecard](https://securityscorecard.com/)
 - Build tests for code base
+- Add example dynamic and status process configs
 
 ## Authors
 
