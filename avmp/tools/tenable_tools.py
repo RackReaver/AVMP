@@ -159,6 +159,14 @@ class TenableToolsAPI:
 
         return history_id, scan_date
 
+    def check_scan_in_progress(self, scan_name):
+        scan_meta_data = self.get_scan_info(scan_name)
+
+        if scan_meta_data['status'] == 'running':
+            return True
+        else:
+            return False
+
 
 class TenableToolsCSV:
     def __init__(self,  filepath, min_cvss_score=None):

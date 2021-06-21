@@ -83,111 +83,117 @@ def dynamic(app):
 
     # Get raw scan data
     logging.info('Checking Tenable for new scan.')
-    filepath = app.tenAPI.export_latest_scan(app.process_config['scan_name'],
-                                             os.path.join(
-        os.getcwd(), 'data', 'scans'),
-        overwrite=False)
 
-    # Build vulnerability database
-    db = TenableSqliteVulnDB(app.process_config['ticket_db_filepath'])
-
-    logging.info('Starting scan data import')
-    items = TenableToolsCSV(
-        filepath, min_cvss_score=app.process_config['min_cvss_score']).group_by('Plugin ID')
-
-    if items == None:
-        logging.debug('No data was found given the min_cvss_score')
+    if app.tenAPI.check_scan_in_progress(app.process_config['scan_name']) == True:
+        logging.info('Latest scan is still running, try again later.')
         return False
+    else:
+        filepath = app.tenAPI.export_latest_scan(app.process_config['scan_name'],
+                                                 os.path.join(
+            os.getcwd(), 'data', 'scans'),
+            overwrite=False)
 
-    tickets = TenableToolsCSV.organize(items)
-    logging.info('Completed scan data import')
-    logging.info('Creating tickets for "{}"'.format(
-        app.process_config['scan_name']))
+        # Build vulnerability database
+        db = TenableSqliteVulnDB(app.process_config['ticket_db_filepath'])
 
-    ticket_counter = 0
-    for ticket in tickets.values():
-        # Looping according to the max ticket count
-        if ticket_counter < app.process_config['max_tickets'] or app.process_config['max_tickets'] == 0:
+        logging.info('Starting scan data import')
+        items = TenableToolsCSV(
+            filepath, min_cvss_score=app.process_config['min_cvss_score']).group_by('Plugin ID')
 
-            data = {**app.process_config['data']}
+        if items == None:
+            logging.debug('No data was found given the min_cvss_score')
+            return False
 
-            # Check to ensure all required fields are included
-            if len(app.config['types']) > 0 and data['project']['key'] in app.config['types']:
-                missing_fields = []
-                for field in app.config['types'][data['project']['key']]:
-                    if field not in app.process_config['data']:
-                        missing_fields.append(field)
-                if len(missing_fields) != 0:
-                    raise NameError(
-                        f"The following fields were missing {missing_fields}")
+        tickets = TenableToolsCSV.organize(items)
+        logging.info('Completed scan data import')
+        logging.info('Creating tickets for "{}"'.format(
+            app.process_config['scan_name']))
 
-            # Append variable data to data fields
-            data['summary'] += ticket['Vuln Data']['Synopsis']
-            data['summary'] = data['summary'].replace('\n', ' ')
-            data['description'] += build_jira_description(ticket)
-            if data['priority']['id'] == '':
-                # Selects proper priority rating inside of Jira
-                if ticket['Vuln Data']['Risk'] == 'Critical':
-                    data['priority']['id'] = app.config['priorities']['Critical']
-                elif ticket['Vuln Data']['Risk'] == 'High':
-                    data['priority']['id'] = app.config['priorities']['High']
-                elif ticket['Vuln Data']['Risk'] == 'Medium':
-                    data['priority']['id'] = app.config['priorities']['Medium']
-                else:
-                    data['priority']['id'] = app.config['priorities']['Low']
+        ticket_counter = 0
+        for ticket in tickets.values():
+            # Looping according to the max ticket count
+            if ticket_counter < app.process_config['max_tickets'] or app.process_config['max_tickets'] == 0:
 
-            if data['duedate'] == '':
-                # Build due date
-                today = datetime.now()
-                plus_days = app.config['due_dates'][ticket['Vuln Data']['Risk']]
-                final_date = today + timedelta(days=int(plus_days))
-                data['duedate'] = final_date.strftime("%Y-%m-%d")
+                data = {**app.process_config['data']}
 
-            ip_list = set([x['IP Address'] for x in ticket['Hosts'].values()])
+                # Check to ensure all required fields are included
+                if len(app.config['types']) > 0 and data['project']['key'] in app.config['types']:
+                    missing_fields = []
+                    for field in app.config['types'][data['project']['key']]:
+                        if field not in app.process_config['data']:
+                            missing_fields.append(field)
+                    if len(missing_fields) != 0:
+                        raise NameError(
+                            f"The following fields were missing {missing_fields}")
 
-            # Check for already open tickets
-            dups = db.get_all_tickets_by_plugin_id(
-                ticket['Vuln Data']['Plugin ID'])
+                # Append variable data to data fields
+                data['summary'] += ticket['Vuln Data']['Synopsis']
+                data['summary'] = data['summary'].replace('\n', ' ')
+                data['description'] += build_jira_description(ticket)
+                if data['priority']['id'] == '':
+                    # Selects proper priority rating inside of Jira
+                    if ticket['Vuln Data']['Risk'] == 'Critical':
+                        data['priority']['id'] = app.config['priorities']['Critical']
+                    elif ticket['Vuln Data']['Risk'] == 'High':
+                        data['priority']['id'] = app.config['priorities']['High']
+                    elif ticket['Vuln Data']['Risk'] == 'Medium':
+                        data['priority']['id'] = app.config['priorities']['Medium']
+                    else:
+                        data['priority']['id'] = app.config['priorities']['Low']
 
-            # TODO: Add abilty to open ticket for new IP's and link to existing vuln ticket.
+                if data['duedate'] == '':
+                    # Build due date
+                    today = datetime.now()
+                    plus_days = app.config['due_dates'][ticket['Vuln Data']['Risk']]
+                    final_date = today + timedelta(days=int(plus_days))
+                    data['duedate'] = final_date.strftime("%Y-%m-%d")
 
-            if len(dups) == 0 or app.process_config['allow_ticket_duplication'] == True:
-                if len(dups) != 0:
-                    logging.info('Plugin ID ({}) has an open ticket. Creating duplicate...'.format(
-                        ticket['Vuln Data']['Plugin ID']))
+                ip_list = set([x['IP Address']
+                               for x in ticket['Hosts'].values()])
 
-                current = app.jiraAPI.create(data)
-                ticket_counter += 1
-                db.add_ticket(current, ticket['Vuln Data']
-                              ['Plugin ID'], app.process_config['default_ticket_status'], list(ip_list))
+                # Check for already open tickets
+                dups = db.get_all_tickets_by_plugin_id(
+                    ticket['Vuln Data']['Plugin ID'])
 
-                # Attempt adding comment(s) to ticket
-                if app.process_config['comments'] != '':
-                    for comment in app.process_config['comments']:
+                # TODO: Add abilty to open ticket for new IP's and link to existing vuln ticket.
+
+                if len(dups) == 0 or app.process_config['allow_ticket_duplication'] == True:
+                    if len(dups) != 0:
+                        logging.info('Plugin ID ({}) has an open ticket. Creating duplicate...'.format(
+                            ticket['Vuln Data']['Plugin ID']))
+
+                    current = app.jiraAPI.create(data)
+                    ticket_counter += 1
+                    db.add_ticket(current, ticket['Vuln Data']
+                                  ['Plugin ID'], app.process_config['default_ticket_status'], list(ip_list))
+
+                    # Attempt adding comment(s) to ticket
+                    if app.process_config['comments'] != '':
+                        for comment in app.process_config['comments']:
+                            try:
+                                app.jiraAPI.comment(current, comment)
+                                logging.info(
+                                    'Successfully applied comment on {}'.format(current))
+                            except:
+                                logging.error(
+                                    'Failed to apply comment on {}'.format(current))
+
+                    # Log time saved
+                    jira_log_time(app, current)
+
+                    # Link ticket back to root ticket
+                    if app.process_config['root_ticket'] != "":
                         try:
-                            app.jiraAPI.comment(current, comment)
-                            logging.info(
-                                'Successfully applied comment on {}'.format(current))
+                            app.jiraAPI.link(app.process_config['root_ticket'], current,
+                                             issue_link_name='depends on')
+                            logging.info('Linked {} to {}'.format(
+                                app.process_config['root_ticket'], current))
                         except:
-                            logging.error(
-                                'Failed to apply comment on {}'.format(current))
-
-                # Log time saved
-                jira_log_time(app, current)
-
-                # Link ticket back to root ticket
-                if app.process_config['root_ticket'] != "":
-                    try:
-                        app.jiraAPI.link(app.process_config['root_ticket'], current,
-                                         issue_link_name='depends on')
-                        logging.info('Linked {} to {}'.format(
-                            app.process_config['root_ticket'], current))
-                    except:
-                        logging.error('Failed to link {} to root ticket {}'.format(
-                            current, app.process_config['root_ticket']))
-            else:
-                logging.info('Plugin ID ({}) has an open ticket. Skipping...'.format(
-                    ticket['Vuln Data']['Plugin ID']))
+                            logging.error('Failed to link {} to root ticket {}'.format(
+                                current, app.process_config['root_ticket']))
+                else:
+                    logging.info('Plugin ID ({}) has an open ticket. Skipping...'.format(
+                        ticket['Vuln Data']['Plugin ID']))
 
 
 def jira_log_time(app, ticket):
