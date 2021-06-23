@@ -217,6 +217,7 @@ See [examples](examples/static_process_configs) for context on use cases.
 - Add support for [SecurityScorecard](https://securityscorecard.com/)
 - Build tests for code base
 - Add example dynamic and status process configs
+- Add database tracking of static_process tickets
 
 ## Authors
 
