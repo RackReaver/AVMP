@@ -57,7 +57,14 @@ At this time the tool can only be deployed locally.
 
 ```
 $ avmp --help
-AVMP command-line app.
+      __      ____  __ _____
+     /\ \    / /  \/  |  __ \
+    /  \ \  / /| \  / | |__) |
+   / /\ \ \/ / | |\/| |  ___/
+  / ____ \  /  | |  | | |
+ /_/    \_\/   |_|  |_|_|
+
+A collection of tools for managing and automating vulnerability management.
 
 Usage:
     avmp run [--config filepath] <process_config>
