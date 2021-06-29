@@ -35,7 +35,9 @@ Streamline the way vulnerability management programs are created and run. This p
 
 ## Installation
 
-This tool is still being actively developed and does not have a version 1 at this time.
+```
+pip install git+https://github.com/RackReaver/AVMP
+```
 
 ## Running the tests
 
