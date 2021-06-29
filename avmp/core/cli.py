@@ -1,9 +1,16 @@
 """
-AVMP command-line app.
+      __      ____  __ _____  
+     /\ \    / /  \/  |  __ \ 
+    /  \ \  / /| \  / | |__) |
+   / /\ \ \/ / | |\/| |  ___/ 
+  / ____ \  /  | |  | | |     
+ /_/    \_\/   |_|  |_|_|     
+                              
+A collection of tools for managing and automating vulnerability management.
 
 Usage:
     avmp run [--config filepath] <process_config>
-    avmp update [--config filepath] <ticket_db_filepath>
+    avmp update [--config filepath] <ticket_db_filepath> 
     avmp -h | --help
     avmp --version
 
