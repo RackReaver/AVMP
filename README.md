@@ -225,7 +225,7 @@ See [examples](examples/static_process_configs) for context on use cases.
   - Track project and process ticket numbers for automated linking
 - Add support for [SecurityScorecard](https://securityscorecard.com/)
 - Build tests for code base
-- Add example dynamic and status process configs
+- [x]Add example dynamic and static process configs
 - Add database tracking of static_process tickets
 
 ## Authors
