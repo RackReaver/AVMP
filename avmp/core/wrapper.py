@@ -144,7 +144,11 @@ def dynamic(app):
                 if data['duedate'] == '':
                     # Build due date
                     today = datetime.now()
-                    plus_days = app.config['due_dates'][ticket['Vuln Data']['Risk']]
+                    if ticket['Vuln Data']['Risk'] in app.config['due_dates']:
+                        plus_days = app.config['due_dates'][ticket['Vuln Data']['Risk']]
+                    else:
+                        plus_days = app.config['due_dates']['Low']
+
                     final_date = today + timedelta(days=int(plus_days))
                     data['duedate'] = final_date.strftime("%Y-%m-%d")
 
