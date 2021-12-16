@@ -12,6 +12,9 @@ homepage = "https://github.com/RackReaver/AVMP"
 
 keywords = ["automation", "jira", "vulnerability-detection", "vulnerability-management", "vulnerability-scanners", "vulnerability-assessment", "tenable", "vulnerability-scanning", "tenableio"]
 
+[tool.poetry.scripts]
+avmp = 'avmp = avmp.core.cli: main'
+
 [tool.poetry.dependencies]
 python = "^3.9"
 click = "7.1.2"
