@@ -5,6 +5,13 @@ description = "Command line vulnerability program manager."
 authors = ["RackReaver <rackreaver@gmail.com>"]
 license = "Apache-2.0"
 
+readme = "README.md"  # Markdown files are supported
+
+repository = "https://github.com/RackReaver/AVMP"
+homepage = "https://github.com/RackReaver/AVMP"
+
+keywords = ["automation", "jira", "vulnerability-detection", "vulnerability-management", "vulnerability-scanners", "vulnerability-assessment", "tenable", "vulnerability-scanning", "tenableio"]
+
 [tool.poetry.scripts]
 avmp = 'avmp = avmp.core.cli: main'
 
