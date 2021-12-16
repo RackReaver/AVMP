@@ -21,6 +21,7 @@ click = "7.1.2"
 jira = "2.0.0"
 pyTenable = "1.2.6"
 requests = "2.25.1"
+docopt = "^0.6.2"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "1.5.4"
