@@ -1,4 +1,4 @@
-![Alt text](logo.png?raw=true "logo")
+![Alt text](https://raw.githubusercontent.com/RackReaver/AVMP/main/logo.png?raw=true "logo")
 
 # Automated Vulnerability Management Program (AVMP)
 
