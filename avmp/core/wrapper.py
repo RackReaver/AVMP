@@ -61,7 +61,7 @@ def static(app):
         # Set parent ticket in config if it doesn't exist
         if "parent" not in app.process_config['sub_tasks'][key]:
             app.process_config['sub_tasks'][key]['parent'] = {
-                "id": parent_ticket}
+                "key": parent_ticket}
 
         child = app.jiraAPI.create(app.process_config['sub_tasks'][key])
         logging.info('{} used "{}" to create child ticket "{}" under "{}" successfully in Jira'.format(
