@@ -1,0 +1,87 @@
+{
+    "process_type": "static",
+    "time_saved_per_ticket": "5m",
+    "time_saved_comment": "Time saved through automation",
+    "parent_ticket": {
+        "project": {"key": ""},
+        "summary": "QX YYYY - Quarterly ASV External Scan",
+        "description": "Root ticket for tracking the remediation efforts for the quarterly external asv scan.\n\n* Please see linked tickets for individual vulnerability information.\n* Subtasks are for ensuring the proper steps are taken each quarter.",
+        "issuetype": {"name": "Story"},
+        "assignee": {"name": ""},
+        "labels": ["pci"]
+    },
+    "sub_tasks": {
+        "ip_verification": {
+            "project": {"key": ""},
+            "summary": "Request Verification of External IP Address List from Network Manager",
+            "description": "Open a ticket with network team to review the current external ip address list.\n\nCurrent External IP Scan List:\n{code}IP'S HERE{code}",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "vulnerability_remediation": {
+            "project": {"key": ""},
+            "summary": "QX YYYY - Remediation Process",
+            "description": "See linked tickets for vulnerability information.",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "false_positive_review_and_approval": {
+            "project": {"key": ""},
+            "summary": "False Positive Review and Approval",
+            "description": "Describe who is required for review and approval and how to request it.",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "submit_to_asv_workbench": {
+            "project": {"key": ""},
+            "summary": "Submit Scan to ASV Workbench in Tenable",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "upload_evidence": {
+            "project": {"key": ""},
+            "summary": "Upload Evidence for False Positives",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "submit_for_attestation": {
+            "project": {"key": ""},
+            "summary": "Submit Scan for Attestation",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "dispute_issues": {
+            "project": {"key": ""},
+            "summary": "Dispute Issues with Tenable ASV Scanning Team (if needed)",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "upload_to_asv_drive_folder": {
+            "project": {"key": ""},
+            "summary": "Upload Results to ASV Scan Drive Folder",
+            "description": "Link to ASV Scan Drive Folder (special permissions required to view):\n<<URL>>",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        },
+        "add_scan_data_to_root_ticket": {
+            "project": {"key": ""},
+            "summary": "Upload Scan Data to Root Ticket",
+            "description": "The following should be uploaded to the root ticket:\n* Initial ASV Scan Results\n* Completed ASV Attestation",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["pci"]
+        }
+    }
+}
