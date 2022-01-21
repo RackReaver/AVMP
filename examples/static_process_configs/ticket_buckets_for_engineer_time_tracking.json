@@ -1,0 +1,58 @@
+{
+    "process_type": "static",
+    "time_saved_per_ticket": "5m",
+    "time_saved_comment": "Time saved through automation",
+    "parent_ticket": {
+        "project": {"key": ""},
+        "summary": "Weekly Information Security Engineer To-Do's",
+        "description": "See sub-tasks for details.",
+        "issuetype": {"name": "Story"},
+        "assignee": {"name": ""},
+        "priority": {"id": ""}
+    },
+    "sub_tasks": {
+        "meetings": {
+            "project": {"key": ""},
+            "summary": "Business Meetings",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""},
+            "labels": ["meeting"]
+        },
+        "admin_tasks": {
+            "project": {"key": ""},
+            "summary": "Admin Tasks",
+            "description": "Emails, slack messages, etc.",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        },
+        "threat_vulnerability_management": {
+            "project": {"key": ""},
+            "summary": "Threat/Vulnerability Management",
+            "description": "Tasks done inside of the endpoint protection platform and vulnerability management platform.",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        },
+        "logs_records_management": {
+            "project": {"key": ""},
+            "summary": "Logs/Records Management",
+            "description": "Tasks done inside of SIEM.",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        },
+        "incidents_events": {
+            "project": {"key": ""},
+            "summary": "Incidents/Events",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        },
+        "automation_scripts": {
+            "project": {"key": ""},
+            "summary": "Automation/Scripting",
+            "description": "",
+            "issuetype": {"name": "Sub-task"},
+            "assignee": {"name": ""}
+        }
+    }
+}
