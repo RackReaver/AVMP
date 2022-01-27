@@ -11,7 +11,7 @@ Streamline the way vulnerability management programs are created and run. This p
 ## Table of Contents
 
 - [Things to Note](#things-to-note)
-- [Intallation](#installation)
+- [Installation](#installation)
 - [Running the tests](#running-the-tests)
 - [Deployment](#deployment)
 - [How to use](#how-to-use)
