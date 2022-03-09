@@ -5,8 +5,8 @@ __license__ = "Apache License"
 
 import os
 import sys
-import json
 import logging
+import json
 
 
 def logging_setup(filename: str, stdout: bool=False) -> None:
