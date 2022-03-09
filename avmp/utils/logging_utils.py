@@ -9,7 +9,7 @@ import json
 import logging
 
 
-def logging_setup(filename, stdout=False):
+def logging_setup(filename: str, stdout: bool=False) -> None:
     """Standard logging setup.
 
     args:

@@ -3,10 +3,11 @@
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
+from typing import List
 from netaddr import IPNetwork
 
 
-def get_all_network_ips(network):
+def get_all_network_ips(network: str) -> List[str]:
     """Given a network (0.0.0.0/24) return all possible ip addresses
 
     arg:
@@ -17,7 +18,7 @@ def get_all_network_ips(network):
     return [str(ip) for ip in IPNetwork(network)]
 
 
-def get_all_networks_ips(networks):
+def get_all_networks_ips(networks: List[str]) -> List[List[str]]:
     """Given a list of networks return all possible ip addresses.
 
     arg:
