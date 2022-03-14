@@ -22,22 +22,19 @@ def logging_setup(filename, stdout=False):
     """
     isinstance(filename, str)
 
-    if os.path.isdir('logs') == False:
-        os.mkdir('logs')
-        logging.info('Creating logs folder.')
+    if os.path.isdir("logs") == False:
+        os.mkdir("logs")
+        logging.info("Creating logs folder.")
 
     # Logging configuration
     if stdout == False:
-        fmtstr = '%(asctime)s:%(levelname)s:%(module)s:%(message)s'
+        fmtstr = "%(asctime)s:%(levelname)s:%(module)s:%(message)s"
         logging.basicConfig(
-            filename='logs/{}.log'.format(filename[:-3]),
+            filename="logs/{}.log".format(filename[:-3]),
             level=logging.DEBUG,
-            filemode='a',
-            format=fmtstr
+            filemode="a",
+            format=fmtstr,
         )
     else:
-        fmtstr = '[%(levelname)s]\t%(message)s'
-        logging.basicConfig(
-            stream=sys.stdout,
-            level=logging.INFO,
-            format=fmtstr)
+        fmtstr = "[%(levelname)s]\t%(message)s"
+        logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=fmtstr)
