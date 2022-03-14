@@ -4,8 +4,9 @@ __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
 import logging
-from jira import JIRA
 from getpass import getpass
+
+from jira import JIRA
 
 from avmp.core.exceptions import InputError
 
@@ -34,10 +35,8 @@ class JiraToolsAPI:
         self.username = username
         self.password = password
 
-        self._JIRA = JIRA(self.jira_options, basic_auth=(
-            self.username, self.password))
-        logging.info(
-            f"Authenticated successfully with Jira with {self.username}")
+        self._JIRA = JIRA(self.jira_options, basic_auth=(self.username, self.password))
+        logging.info(f"Authenticated successfully with Jira with {self.username}")
 
     def create(self, data):
         """Create a single Jira ticket.
@@ -49,13 +48,13 @@ class JiraToolsAPI:
         """
         try:
             jira_ticket = self._JIRA.create_issue(fields=data)
-            logging.info(
-                f"Successfully created Jira issue '{jira_ticket.key}'")
+            logging.info(f"Successfully created Jira issue '{jira_ticket.key}'")
             return jira_ticket.key
 
         except Exception as error:
             logging.debug(
-                f"Failed to create Jira issue '{jira_ticket.key}'\n\n{error}\n\n")
+                f"Failed to create Jira issue '{jira_ticket.key}'\n\n{error}\n\n"
+            )
             return False
 
     def link(self, issue_from, issue_to, issue_link_name=None):
@@ -74,12 +73,14 @@ class JiraToolsAPI:
         try:
             self._JIRA.create_issue_link(issue_link_name, issue_from, issue_to)
             logging.info(
-                f"Successfully created a '{issue_link_name}' link between '{issue_from}' and '{issue_to}'.")
+                f"Successfully created a '{issue_link_name}' link between '{issue_from}' and '{issue_to}'."
+            )
             return True
 
         except Exception as error:
             logging.debug(
-                f"Failed to create a link between '{issue_from}' and '{issue_to}'\n\n{error}\n\n")
+                f"Failed to create a link between '{issue_from}' and '{issue_to}'\n\n{error}\n\n"
+            )
             return False
 
     def label(self, issue, labels):
@@ -95,36 +96,37 @@ class JiraToolsAPI:
             try:
                 issue_instance = self._JIRA.issue(issue)
                 issue_instance.update(
-                    fields={"labels": issue_instance.fields.labels + labels})
-                logging.info(
-                    f"Successfully added labels '{labels}' to '{issue}'")
+                    fields={"labels": issue_instance.fields.labels + labels}
+                )
+                logging.info(f"Successfully added labels '{labels}' to '{issue}'")
                 return True
 
             except Exception as error:
                 logging.debug(
-                    f"Failed to add labels '{labels}' to '{issue}'\n\n{error}\n\n")
+                    f"Failed to add labels '{labels}' to '{issue}'\n\n{error}\n\n"
+                )
                 return False
 
         else:
-            raise InputError('A list must be passed to the labels argument')
+            raise InputError("A list must be passed to the labels argument")
 
     def comment(self, issue, comment):
         """Apply a comment to a given issue.
 
-         args:
-             issue (str): Issue that comment will be applied to.
-             comment (str): comment that should be applied to the issue.
+        args:
+            issue (str): Issue that comment will be applied to.
+            comment (str): comment that should be applied to the issue.
 
-         return (bool): Will return 'True' if it completed successfully.
-         """
+        return (bool): Will return 'True' if it completed successfully.
+        """
         try:
             self._JIRA.add_comment(issue, comment)
-            logging.info(
-                f"Successfully added comment '{comment}' to '{issue}'")
+            logging.info(f"Successfully added comment '{comment}' to '{issue}'")
             return True
         except Exception as error:
             logging.debug(
-                f"Failed to add comment '{comment}' to '{issue}'\n\n{error}\n\n")
+                f"Failed to add comment '{comment}' to '{issue}'\n\n{error}\n\n"
+            )
             return False
 
     def log_work(self, issue, time_spent, comment=None):
@@ -148,8 +150,7 @@ class JiraToolsAPI:
             return True
 
         except Exception as error:
-            logging.info(
-                f"Failed to log work to '{issue}' See debug logs for more.")
+            logging.info(f"Failed to log work to '{issue}' See debug logs for more.")
             logging.debug(f"\n{error}\n")
             return False
 
@@ -171,8 +172,7 @@ class JiraToolsAPI:
             return True
 
         except Exception as error:
-            logging.debug(
-                f"Failed to attach document to '{issue}'\n\n{error}\n\n")
+            logging.debug(f"Failed to attach document to '{issue}'\n\n{error}\n\n")
             return False
 
     def update_status(self, id, end_status, transfer_statuses=[], timeout_attempts=10):
@@ -195,16 +195,12 @@ class JiraToolsAPI:
         while timeout_attempts != 0:
             transitions = self._JIRA.transitions(id)
             for transition in transitions:
-                if transition['name'] == end_status:
-                    jira_ticket = self._JIRA.transition_issue(
-                        id, transition['id'])
-                    logging.info(
-                        f"Updated status of '{id}' to '{end_status}'")
+                if transition["name"] == end_status:
+                    jira_ticket = self._JIRA.transition_issue(id, transition["id"])
+                    logging.info(f"Updated status of '{id}' to '{end_status}'")
                     return True
-                elif transition['name'] in transfer_statuses:
-                    jira_ticket = self._JIRA.transition_issue(
-                        id, transition['id'])
+                elif transition["name"] in transfer_statuses:
+                    jira_ticket = self._JIRA.transition_issue(id, transition["id"])
             timeout_attempts -= 1
-        logging.debug(
-            f"Failed to update status of '{id}' to end_status ({end_status})")
+        logging.debug(f"Failed to update status of '{id}' to end_status ({end_status})")
         return False

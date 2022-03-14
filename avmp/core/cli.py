@@ -22,27 +22,28 @@ Options:
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
-from docopt import docopt
 import json
 
-from avmp.core import wrapper, updater
+from docopt import docopt
+
+from avmp.core import updater, wrapper
 
 
 def main():
-    args = docopt(__doc__, version='0.0.2')
+    args = docopt(__doc__, version="0.0.2")
 
-    if args['run'] == True:
+    if args["run"] == True:
 
-        with open(args['--config'], 'r') as openFile:
+        with open(args["--config"], "r") as openFile:
             config = json.load(openFile)
-        with open(args['<process_config>'], 'r') as openFile:
+        with open(args["<process_config>"], "r") as openFile:
             process_config = json.load(openFile)
 
         wrapper.main(config, process_config)
 
-    elif args['update'] == True:
+    elif args["update"] == True:
 
-        with open(args['--config'], 'r') as openFile:
+        with open(args["--config"], "r") as openFile:
             config = json.load(openFile)
 
-        updater.main(args['<ticket_db_filepath>'], config)
+        updater.main(args["<ticket_db_filepath>"], config)
