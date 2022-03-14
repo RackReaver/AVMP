@@ -1,7 +1,4 @@
-from avmp.utils.ip_tools import (
-    get_all_network_ips,
-    get_all_networks_ips
-)
+from avmp.utils.ip_tools import get_all_network_ips, get_all_networks_ips
 
 
 def test_get_all_network_ips():

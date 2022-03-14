@@ -4,8 +4,9 @@ __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
 import logging
-from jira import JIRA
 from getpass import getpass
+
+from jira import JIRA
 
 from avmp.core.exceptions import InputError
 

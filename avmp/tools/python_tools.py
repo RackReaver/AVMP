@@ -3,9 +3,9 @@
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
-import os
 import json
 import logging
+import os
 
 
 class DataSetup:

@@ -22,10 +22,11 @@ Options:
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
-from docopt import docopt
 import json
 
-from avmp.core import wrapper, updater
+from docopt import docopt
+
+from avmp.core import updater, wrapper
 
 
 def main():

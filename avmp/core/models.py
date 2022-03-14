@@ -3,12 +3,12 @@
 __copyright__ = "Copyright (C) 2021  Matt Ferreira"
 __license__ = "Apache License"
 
-import os
 import logging
+import os
 
-from avmp.tools.tenable_tools import TenableToolsAPI
-from avmp.tools.jira_tools import JiraToolsAPI
 from avmp.core.exceptions import MissingConfiguration
+from avmp.tools.jira_tools import JiraToolsAPI
+from avmp.tools.tenable_tools import TenableToolsAPI
 
 
 class App():

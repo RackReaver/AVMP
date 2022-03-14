@@ -3,16 +3,15 @@
 __copyright__ = "Copyright (C) 2021  Matt Ferreira"
 __license__ = "Apache License"
 
+import logging
 import os
 import socket
-import logging
 from datetime import datetime, timedelta
 
-from avmp.core.models import App
 from avmp.core.exceptions import MissingConfiguration
+from avmp.core.models import App
+from avmp.tools.tenable_tools import TenableToolsCSV, build_jira_description
 from avmp.utils.logging_utils import logging_setup
-from avmp.tools.tenable_tools import (TenableToolsCSV,
-                                      build_jira_description)
 from avmp.utils.vuln_db import TenableSqliteVulnDB
 
 

@@ -3,10 +3,10 @@
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
-import os
-import sys
 import json
 import logging
+import os
+import sys
 
 
 def logging_setup(filename, stdout=False):

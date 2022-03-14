@@ -3,10 +3,11 @@
 __copyright__ = "Copyright (C) 2021  Matt Ferreira"
 __license__ = "Apache License"
 
-from setuptools import setup, find_packages
-
 # Read contents of README.md file
 from os import path
+
+from setuptools import find_packages, setup
+
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     README = f.read()

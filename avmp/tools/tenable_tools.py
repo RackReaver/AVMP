@@ -3,10 +3,11 @@
 __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
-import os
 import csv
-from datetime import datetime
 import logging
+import os
+from datetime import datetime
+
 from tenable.io import TenableIO
 
 
