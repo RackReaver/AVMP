@@ -4,6 +4,7 @@ __copyright__ = "Copyright (C) 2020-2021  Matt Ferreira"
 __license__ = "Apache License"
 
 import json
+
 import requests
 
 
@@ -24,32 +25,23 @@ class SlackTools:
         """
         if custom_payload == None:
             if channel != None:
-                payload = {"channel": channel,
-                           "blocks": [
-                               {
-                                   "type": "section",
-                                   "text": {
-                                       "type": "mrkdwn",
-                                       "text": message
-                                   }
-                               }
-                           ]
-                           }
+                payload = {
+                    "channel": channel,
+                    "blocks": [
+                        {"type": "section", "text": {"type": "mrkdwn", "text": message}}
+                    ],
+                }
             else:
                 payload = {
                     "blocks": [
-                        {
-                            "type": "section",
-                            "text": {
-                                "type": "mrkdwn",
-                                        "text": message
-                            }
-                        }
+                        {"type": "section", "text": {"type": "mrkdwn", "text": message}}
                     ]
                 }
 
-        r = requests.post(webhook_url,
-                          data=json.dumps(payload),
-                          headers={'Content-Type': 'application/json'})
+        r = requests.post(
+            webhook_url,
+            data=json.dumps(payload),
+            headers={"Content-Type": "application/json"},
+        )
 
         return r
