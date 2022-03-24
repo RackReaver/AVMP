@@ -10,7 +10,7 @@ import os
 import sys
 
 
-def logging_setup(filename: str, stdout: bool=False) -> None:
+def logging_setup(filename: str, stdout: bool = False) -> None:
     """Standard logging setup.
 
     args:
